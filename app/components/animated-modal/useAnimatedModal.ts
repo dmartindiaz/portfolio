@@ -1,5 +1,5 @@
 import { inject } from "vue";
-import { ANIMATED_MODAL_KEY } from "./AnimatedModalContext";
+import { ANIMATED_MODAL_KEY } from "./animatedModalContext";
 
 export function useAnimatedModal() {
   const modal = inject(ANIMATED_MODAL_KEY, null);
