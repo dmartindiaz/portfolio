@@ -1,0 +1,255 @@
+{
+  "nav": {
+    "about": "About",
+    "experience": "Experience",
+    "projects": "Projects",
+    "stack": "Stack",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Daniel Martín Díaz",
+    "titleBefore": "Senior Frontend Engineer",
+    "titleHighlight": "Vue / Nuxt",
+    "titleAfter": "",
+    "description": "Senior Frontend Engineer specialised in Nuxt/Vue. I bring an uncommon blend of engineering and product vision—building scalable, maintainable frontend systems with 6+ years of specialised expertise.",
+    "primaryCta": "View CV",
+    "secondaryCta": "LinkedIn",
+    "location": "Remote / Global",
+    "experience": "6+ Years"
+  },
+  "me": {
+    "badge": "About Me",
+    "name": "Daniel Martín Díaz",
+    "title": "Tech Brain. Market Soul.",
+    "body": "My profile is built on two pillars that rarely coexist: a formal background in Telecommunications and IT, and a specialisation in Marketing and business strategy. This dual foundation lets me build interfaces that are technically robust and commercially effective—understanding both the system and the person using it.",
+    "highlights": ["Telecommunications and IT", "Marketing and business strategy"],
+    "cards": {
+      "telecom": {
+        "title": "Telecommunications & IT",
+        "description": "Higher technician in Telecommunications and IT systems. Network infrastructure, systems architecture and server management—applied to frontend engineering with the same rigour as critical infrastructure."
+      },
+      "marketing": {
+        "title": "Marketing & Advertising",
+        "description": "Higher technician in Marketing and Advertising. Specialisation in conversion, UX psychology and brand communication. Every interface decision is informed by how users think and what businesses need to grow."
+      }
+    }
+  },
+  "timeline": {
+    "badge": "Career Timeline",
+    "mainStack": "Main stack",
+    "allTechs": "All technologies",
+    "items": [
+      {
+        "title": "Senior Frontend Engineer",
+        "company": "KUMO Networks (El Corte Inglés)",
+        "period": "March 2024 — Present",
+        "description": "Frontend leadership of a CRM for Data Center service management in B2B and B2B2C environments. Modular and scalable architecture design, development of a Core UI Library with 50+ components and UX design for high-density data systems."
+      },
+      {
+        "title": "Sr Frontend Engineer & Product Founder",
+        "company": "Cluby (own SaaS)",
+        "period": "March 2022 — Present",
+        "description": "Design, development and evolution of a SaaS ecosystem for sports facility management. Evolution from MVP to a robust solution for public entities, implementing complex subsidy, audit and booking modules."
+      },
+      {
+        "title": "Frontend Engineer – Digital Transformation",
+        "company": "Freelance (Kit Digital Programme)",
+        "period": "September 2022 — March 2024",
+        "description": "Specialised in SME digitalisation through tailored solutions. Business process automation, reusable architectures and integration of SEO/SEM strategies directly into frontend development."
+      },
+      {
+        "title": "Lead Frontend & IT Strategist",
+        "company": "Grupo Cardiosalus",
+        "period": "June 2020 — September 2022",
+        "description": "Cross-functional technology and marketing leadership in a healthcare environment. Development of web platforms integrated with internal systems, key process automation and retention-oriented dashboard design."
+      }
+    ]
+  },
+  "contact": {
+    "badge": "Contact",
+    "title": "Let's work together.",
+    "description": "Open to senior frontend roles, freelance collaborations and technical consulting. Drop me a line.",
+    "comingSoon": "Coming soon",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your{'@'}email.com",
+      "message": "Message",
+      "messagePlaceholder": "Tell me about your project...",
+      "submit": "Send message"
+    },
+    "info": {
+      "phone": "Phone",
+      "email": "Email",
+      "location": "Location"
+    }
+  },
+  "dry": {
+    "headline": "Arquitectura que escala.",
+    "refactor": {
+      "inProgress": "Refactoring...",
+      "done": "Refactoring complete",
+      "step1": "Creating features/Dashboard.vue...",
+      "step2": "Extracting Navbar as a reusable component...",
+      "step3": "Extracting Section as a reusable component...",
+      "step4": "Extracting Stats as a reusable component...",
+      "step5": "Extracting Table as a reusable component...",
+      "step6": "Cleaning up and finalising the code..."
+    },
+    "code": {
+      "c": {
+        "navbarHardcoded": "Hardcoded Navbar",
+        "statsHardcoded": "Hardcoded Stats (copy-paste x4)",
+        "tableHardcoded": "Hardcoded orders table",
+        "movedToFeatures": "✅ Moved to features/ — still needs refactoring",
+        "threeMore": "... 3 more like this ...",
+        "hardcodedRows": "...hardcoded rows...",
+        "hardcoded": "...hardcoded...",
+        "hardcodedStats": "...hardcoded stats...",
+        "statsExtracted": "✅ Stats extracted as a generic component",
+        "tableExtracted": "✅ Table extracted as a generic component",
+        "layoutManages": "✅ Default layout handles Page + Navbar",
+        "navbarInLayout": "Navbar now in layouts/default.vue",
+        "sectionWraps": "✅ Section wraps the content",
+        "navbarExtracted": "✅ Navbar extracted as a component"
+      },
+      "todo": {
+        "connectApi": "TODO: connect to a real API someday...",
+        "makeComponents": "TODO: make reusable components",
+        "moveI18n": "TODO: move strings to i18n",
+        "extractStats": "TODO: extract stats",
+        "extractTable": "TODO: extract table",
+        "extractNavbar": "TODO: extract navbar"
+      },
+      "ui": {
+        "panelTitle": "Control Panel",
+        "greeting": "Hello, John Smith",
+        "logout": "Sign out",
+        "totalUsers": "Total users",
+        "trend12": "↑ 12% this month",
+        "sales": "Sales",
+        "trend8": "↑ 8% this month",
+        "pendingOrders": "Pending orders",
+        "trendMinus3": "↓ 3% this month",
+        "openIssues": "Open issues",
+        "newToday": "↑ 2 new today",
+        "latestOrders": "Latest orders",
+        "client": "Client",
+        "amount": "Amount",
+        "status": "Status",
+        "completed": "Completed",
+        "pending": "Pending",
+        "dashboardMounted": "dashboard mounted"
+      }
+    }
+  },
+  "tech": {
+    "nuxt": "Meta-framework for Vue with SSR, file routing and a rich module ecosystem.",
+    "vue3": "Progressive JavaScript UI framework with Composition API.",
+    "tailwind": "Utility-first CSS framework for rapid and consistent UI.",
+    "openapi": "Industry standard for defining REST API contracts.",
+    "java": "Enterprise-grade object-oriented backend language.",
+    "springboot": "Opinionated Java framework for production-ready services.",
+    "angular": "Full-featured TypeScript SPA framework by Google.",
+    "primeng": "Rich UI component library for Angular applications.",
+    "nodejs": "JavaScript runtime built on Chrome's V8 engine.",
+    "nestjs": "Progressive Node.js framework with Angular-like architecture.",
+    "docker": "Container platform for consistent and portable deployments.",
+    "dockercompose": "Multi-container orchestration with declarative YAML config.",
+    "linux": "Open-source OS powering most server infrastructure.",
+    "expressjs": "Minimal and flexible Node.js web application framework.",
+    "mongodb": "NoSQL document database with flexible JSON-like storage.",
+    "firebase": "Google's BaaS platform with realtime database and auth.",
+    "wordpress": "Headless CMS exposing content via REST or GraphQL API."
+  },
+  "projects": {
+    "badge": "Portfolio",
+    "title": "Featured Lab.",
+    "cta": "All Projects",
+    "moreInfo": "More info",
+    "items": [
+      {
+        "title": "Data Center CRM & Cloud Console",
+        "description": "CRM and Cloud Console for KUMO Networks (El Corte Inglés) — Data Center service management in B2B and B2B2C environments. Modular architecture, Core UI Library with 50+ components and UX for high-density data systems.",
+        "role": "Sr Frontend Engineer",
+        "period": "Mar 2024 – Present",
+        "highlights": [
+          "Led frontend architecture for a complex B2B/B2B2C Data Center CRM and Cloud Console, designing a modular and scalable system ready for product growth.",
+          "Built a proprietary Core UI Library with 50+ reusable components, standardising the interface and cutting development time across the team.",
+          "Designed UX for high-density data environments — service management flows, infrastructure dashboards and SLA tracking, all optimised for operator efficiency.",
+          "Collaborated closely with backend (Java / Spring Boot), co-defining API contracts and business logic from the frontend side."
+        ],
+        "details": "Built from scratch as the central operations hub for KUMO Networks. The system handles multi-tenant service contracts, real-time monitoring dashboards, SLA tracking, and automated billing flows. The Core UI Library was designed to support extremely dense tabular data without sacrificing clarity, using progressive disclosure, contextual filters and keyboard-first navigation patterns.",
+        "primaryCta": "View Project",
+        "secondaryCta": "KUMO Networks"
+      },
+      {
+        "title": "nuxt-openapi-hyperfetch",
+        "description": "Own open source project with 2,000+ npm downloads. Automates the data layer in Nuxt apps by generating type-safe composables and server routes from OpenAPI/Swagger contracts.",
+        "role": "Open Source · Author",
+        "period": "Apache-2.0",
+        "highlights": [
+          "One command generates four output types from any OpenAPI spec: useFetch composables, useAsyncData composables, Nuxt Server Routes (to keep API keys server-side), and Connectors.",
+          "Connectors are the flagship feature — a single import exposes full CRUD (list, detail, create, update, delete) per resource, with Zod validation, reactive params, pagination and modal state built in. No extra wiring needed.",
+          "Global callbacks let you register auth headers, error toasts or logging once for the entire app — intercepted at every API call automatically.",
+          "100% Nuxt-native output — no runtime dependencies in the generated code. Works as a CLI (`nxh generate`) or as a Nuxt module with hot-reload on spec changes."
+        ],
+        "primaryCta": "NPM",
+        "secondaryCta": "GitHub",
+        "docsCta": "Documentation"
+      },
+      {
+        "title": "Cardiosalus App",
+        "description": "Medical app (Web, iOS & Android) built with Ionic + Vue for Cardiosalus — now Ribera Salud. Appointment booking, patient records, document signing and more.",
+        "role": "Frontend Engineer",
+        "period": "Ionic · Vue · Web, iOS & Android",
+        "highlights": [
+          "Built for Cardiosalus (now part of Ribera Salud group) — a fully cross-platform medical app available as a web app, iOS and Android from a single Ionic + Vue codebase.",
+          "Appointment booking flow: choose clinic branch, select preferred professional, follow step-by-step scheduling, and cancel or reschedule at any time.",
+          "Patient area: access personal medical records, consultation history and clinical documentation directly from the app.",
+          "Digital document signing integrated into the patient workflow, removing paper from routine administrative processes."
+        ],
+        "primaryCta": "View App",
+        "secondaryCta": "Cardiosalus"
+      },
+      {
+        "title": "Cluby SaaS",
+        "description": "Own SaaS product for sports facility management. From MVP to a robust multi-tenant solution for public entities — with subsidy, audit and booking modules.",
+        "role": "Sr Frontend Engineer & Product Founder",
+        "period": "Mar 2022 – Present",
+        "highlights": [
+          "Full product conceptualisation, architecture design and deployment solo — from a single sports centre MVP to a multi-tenant SaaS used by public administrations and private facility chains.",
+          "Built complex domain modules: a booking engine with capacity rules, a subsidy management module integrated with public grant portals, and a role-based audit log.",
+          "Frontend developed with Angular + PrimeNG; backend with NestJS + Node.js; infrastructure orchestrated with Docker and Docker Compose on Linux.",
+          "Designed a white-label theming system for municipal deployments, allowing each entity to operate under its own brand with zero code changes."
+        ],
+        "primaryCta": "View Project",
+        "secondaryCta": "Cluby"
+      }
+    ]
+  },
+  "stack": {
+    "badge": "Skillset",
+    "title": "Core deep. Extended wide.",
+    "description": "Specialised in the Nuxt / Vue ecosystem with 6+ years of focused experience. Complemented by a full-stack breadth that covers everything from API design to infrastructure—so I can own a feature end-to-end.",
+    "cards": {
+      "core": {
+        "title": "Core Stack",
+        "description": "Nuxt, Vue 3, TypeScript, Tailwind CSS, Pinia, Vite. The tools I use every day to build production-grade frontends."
+      },
+      "architecture": {
+        "title": "Frontend Architecture",
+        "description": "Modular systems, design systems, component libraries with +50 components, OpenAPI contracts and scalable folder structures."
+      },
+      "ux": {
+        "title": "UX Engineering",
+        "description": "High-density data interfaces, GSAP animations, accessible patterns and performance-first implementation."
+      },
+      "product": {
+        "title": "Product Vision",
+        "description": "Dual background in Telecom/IT and Marketing. I understand users, business goals and technical constraints—and I bridge all three."
+      }
+    }
+  }
+}
