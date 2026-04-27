@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import type { TreeItem } from '@nuxt/ui'
 
+interface FileLeaf {
+  label: string
+  icon: string
+  onSelect?: () => void
+}
+
+interface TreeItemWithSelect extends TreeItem {
+  onSelect?: () => void
+  children?: TreeItemWithSelect[]
+}
+
 const props = withDefaults(defineProps<{
   url?: string
   tree?: TreeItem[]
   selectedFile?: string
   initialCollapsed?: boolean
+  compact?: boolean
 }>(), {
   url: 'localhost:3000',
   tree: () => [],
-  initialCollapsed: false
+  initialCollapsed: false,
+  compact: false
 })
 
 const expanded = defineModel<string[]>('expanded', { default: () => [] })
@@ -22,6 +35,25 @@ const selectedItem = computed<TreeItem | undefined>(() => {
   const label = props.selectedFile.split('/').pop()!
   return { label }
 })
+
+// Flatten tree to leaf nodes (files) for compact icon-only mode
+function flattenLeaves(items: TreeItemWithSelect[]): FileLeaf[] {
+  const result: FileLeaf[] = []
+  for (const item of items) {
+    if (item.children?.length) {
+      result.push(...flattenLeaves(item.children))
+    } else {
+      result.push({
+        label: item.label as string,
+        icon: (item.icon as string) ?? 'heroicons:document',
+        onSelect: item.onSelect
+      })
+    }
+  }
+  return result
+}
+
+const leafFiles = computed(() => flattenLeaves((props.tree ?? []) as TreeItemWithSelect[]))
 </script>
 
 <template>
@@ -58,7 +90,7 @@ const selectedItem = computed<TreeItem | undefined>(() => {
         <UIcon name="heroicons:git-branch" class="w-5 h-5 text-white/25" />
       </div>
 
-      <!-- Explorer panel -->
+      <!-- Explorer panel: full tree (desktop) or icon-only (compact/mobile) -->
       <Transition
         enter-active-class="transition-all duration-200 ease-out"
         enter-from-class="opacity-0 -translate-x-2"
@@ -67,15 +99,46 @@ const selectedItem = computed<TreeItem | undefined>(() => {
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-2"
       >
-        <div v-if="explorerOpen" class="w-48 bg-neutral-900 flex flex-col overflow-hidden shrink-0 border-r border-white/5">
+        <!-- Full tree panel -->
+        <div
+          v-if="explorerOpen && !compact"
+          class="w-48 bg-neutral-900 flex flex-col overflow-hidden shrink-0 border-r border-white/5"
+        >
           <div class="px-3 pt-3 pb-1.5">
             <span class="text-[0.6rem] font-semibold tracking-widest uppercase text-white/30">
               Explorer
             </span>
           </div>
           <div class="flex-1 overflow-y-auto px-1 text-xs">
-            <UTree :items="tree" :model-value="selectedItem" v-model:expanded="expanded" class="text-white/60" />
+            <UTree
+              :items="tree"
+              :model-value="selectedItem"
+              v-model:expanded="expanded"
+              class="text-white/60"
+            />
           </div>
+        </div>
+
+        <!-- Compact icon-only panel -->
+        <div
+          v-else-if="explorerOpen && compact"
+          class="w-10 bg-neutral-900 flex flex-col items-center py-2 gap-1 overflow-y-auto shrink-0 border-r border-white/5"
+        >
+          <button
+            v-for="file in leafFiles"
+            :key="file.label"
+            class="w-8 h-8 flex items-center justify-center rounded-md transition-colors"
+            :class="selectedFile?.endsWith(file.label)
+              ? 'text-primary-400 bg-white/8'
+              : 'text-white/35 hover:text-white/70 hover:bg-white/5'"
+            :title="file.label"
+            @click="file.onSelect?.()"
+          >
+            <UIcon
+              :name="file.icon"
+              class="w-4 h-4"
+            />
+          </button>
         </div>
       </Transition>
 

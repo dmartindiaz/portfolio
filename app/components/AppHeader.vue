@@ -10,6 +10,7 @@ function toggleColorMode() {
 }
 
 const scrolled = ref(false)
+const mobileOpen = ref(false)
 
 function onScroll() {
   scrolled.value = window.scrollY > 20
@@ -29,6 +30,7 @@ const navLinks = computed(() => [
 function scrollTo(href: string) {
   const el = document.querySelector(href)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
+  mobileOpen.value = false
 }
 </script>
 
@@ -116,7 +118,53 @@ function scrollTo(href: string) {
             >☀️</span>
           </Transition>
         </button>
+
+        <!-- Hamburger — mobile only -->
+        <button
+          class="md:hidden w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200"
+          :class="colorMode.value === 'dark' ? 'hover:bg-white/10' : 'hover:bg-neutral-200'"
+          :aria-label="mobileOpen ? 'Close menu' : 'Open menu'"
+          @click="mobileOpen = !mobileOpen"
+        >
+          <UIcon
+            :name="mobileOpen ? 'ph:x-bold' : 'ph:list-bold'"
+            class="text-xl text-neutral-700 dark:text-white/70"
+          />
+        </button>
       </div>
     </nav>
+
+    <!-- Mobile menu -->
+    <Transition
+      enter-active-class="transition-all duration-200 ease-out"
+      enter-from-class="opacity-0 -translate-y-2"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition-all duration-150 ease-in"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 -translate-y-2"
+    >
+      <div
+        v-if="mobileOpen"
+        class="md:hidden mx-auto max-w-6xl mt-2 rounded-2xl border px-4 py-3 pointer-events-auto"
+        :class="scrolled
+          ? 'bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border-neutral-200 dark:border-white/15'
+          : 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-neutral-200/60 dark:border-white/8'"
+      >
+        <ul class="flex flex-col gap-1">
+          <li
+            v-for="link in navLinks"
+            :key="link.href"
+          >
+            <a
+              :href="link.href"
+              class="flex items-center px-3 py-2.5 text-sm font-medium text-neutral-600 dark:text-white/60 hover:text-neutral-900 dark:hover:text-white rounded-xl hover:bg-neutral-100 dark:hover:bg-white/5 transition-all duration-200"
+              @click.prevent="scrollTo(link.href)"
+            >
+              {{ link.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </Transition>
   </header>
 </template>

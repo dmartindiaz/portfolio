@@ -109,7 +109,7 @@ withDefaults(defineProps<{
           <template #default="{ openModal }">
             <!-- ── Card ───────────────────────────────────────────── -->
             <div
-              class="group relative rounded-2xl overflow-hidden cursor-pointer min-h-[280px] lg:min-h-0"
+              class="group relative rounded-2xl overflow-hidden cursor-pointer lg:min-h-0 bg-neutral-100 dark:bg-neutral-800"
               :class="[
                 item.size === 'featured' ? 'lg:col-span-2' : 'lg:col-span-1',
                 (i === 0 || i === 3) ? 'border border-transparent' : 'border border-neutral-200 dark:border-white/8'
@@ -147,7 +147,7 @@ withDefaults(defineProps<{
               <div class="absolute inset-x-0 bottom-0 z-20 h-2/3 bg-gradient-to-t from-black/80 to-transparent hidden dark:block" />
 
               <!-- Content -->
-              <div class="absolute inset-x-0 bottom-0 z-30 p-6 flex flex-col gap-2">
+              <div class="relative z-30 p-6 flex flex-col gap-2 min-h-70 justify-end lg:min-h-0 lg:absolute lg:inset-x-0 lg:bottom-0">
                 <!-- Tags -->
                 <div v-if="item.tags?.length" class="flex flex-wrap gap-2 mb-1">
                   <span

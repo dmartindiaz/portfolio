@@ -762,6 +762,7 @@ defineExpose({ initAnimation })
         :tree="treeItems"
         :selected-file="activeFile"
         :initial-collapsed="isMobileIDE"
+        :compact="isMobileIDE"
         v-model:expanded="treeExpanded"
       >
         <!-- Tab bar + code viewer -->

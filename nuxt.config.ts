@@ -43,7 +43,8 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
-    langDir: 'locales/'
+    langDir: 'locales/',
+    baseUrl: 'https://dmartindiaz.com'
   },
 
   mdc: {
