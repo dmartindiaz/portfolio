@@ -68,8 +68,8 @@
   "contact": {
     "badge": "Contacto",
     "comingSoon": "Próximamente",
-    "title": "Hablemos.",
-    "description": "Abierto a posiciones senior de frontend, colaboraciones freelance y consultoría técnica. Escríbeme.",
+    "title": "¿Construimos algo juntos?",
+    "description": "Si tienes un reto técnico interesante, una posición de Tech Lead o Senior Frontend, o simplemente quieres hablar de tecnología — estoy dispuesto a escuchar.",
     "form": {
       "name": "Nombre",
       "namePlaceholder": "Tu nombre",
@@ -77,7 +77,10 @@
       "emailPlaceholder": "tu{'@'}email.com",
       "message": "Mensaje",
       "messagePlaceholder": "Cuéntame tu proyecto...",
-      "submit": "Enviar mensaje"
+      "submit": "Enviar mensaje",
+      "sending": "Enviando...",
+      "success": "¡Mensaje enviado! Te responderé pronto.",
+      "error": "Algo ha fallado. Por favor, inténtalo de nuevo."
     },
     "info": {
       "phone": "Teléfono",
@@ -210,8 +213,7 @@
           "Área de paciente: acceso a ficha médica personal, historial de consultas y documentación clínica directamente desde la app.",
           "Firma digital de documentación integrada en el flujo del paciente, eliminando el papel de los procesos administrativos habituales."
         ],
-        "primaryCta": "Ver app",
-        "secondaryCta": "Cardiosalus"
+        "primaryCta": "Ir a la aplicación"
       },
       {
         "title": "Cluby SaaS",
@@ -224,8 +226,9 @@
           "Frontend con Angular + PrimeNG; backend con NestJS + Node.js; infraestructura orquestada con Docker y Docker Compose sobre Linux.",
           "Sistema de tematización white-label para despliegues municipales — cada entidad opera bajo su propia marca sin ningún cambio en el código."
         ],
-        "primaryCta": "Ver proyecto",
-        "secondaryCta": "Cluby"
+        "adminCta": "Demo Admin",
+        "clientCta": "Demo Cliente",
+        "details": "Credenciales de demo — Usuario: admin1 · Contraseña: demo{'@'}conecta-2s.com · PIN: Temporal.123. Entorno de pruebas; algunas funcionalidades pueden estar desactualizadas."
       }
     ]
   },
@@ -251,5 +254,40 @@
         "description": "Doble formación en Telecomunicaciones/Informática y Marketing. Entiendo a los usuarios, los objetivos de negocio y las restricciones técnicas, y los conecto."
       }
     }
+  },
+  "loading": {
+    "label1": "Iniciando stack...",
+    "label2": "Cargando componentes...",
+    "label3": "Montando animaciones...",
+    "label4": "Calibrando scroll...",
+    "label5": "Casi listo..."
+  },
+  "readability": {
+    "title": "Legibilidad",
+    "toolsTitle": "Herramientas de accesibilidad",
+    "close": "Cerrar",
+    "description": "Personaliza tu experiencia de lectura: ajusta la saturación, la fuente, el espaciado y el interlineado para que este sitio sea más cómodo de leer.",
+    "saturation": "Saturación",
+    "satNormal": "Normal",
+    "satLow": "Baja sat.",
+    "satHigh": "Alta sat.",
+    "satNone": "Escala gris",
+    "font": "Fuente",
+    "fontNormal": "Normal",
+    "fontDyslexia": "Dislexia",
+    "fontLegible": "Legible",
+    "spacing": "Espaciado",
+    "spacingValue": "Normal",
+    "lineHeight": "Interlineado",
+    "lineHeightValue": "Normal",
+    "cursor": "Cursor",
+    "cursorNormal": "Normal",
+    "cursorLarge": "Grande",
+    "cursorReading": "Lectura",
+    "contrast": "Contraste",
+    "contrastNormal": "Cont. normal",
+    "contrastInvert": "Invertir",
+    "contrastDark": "Oscuro",
+    "contrastHigh": "Cont. alto"
   }
 }

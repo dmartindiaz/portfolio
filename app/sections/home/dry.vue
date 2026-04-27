@@ -5,6 +5,11 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const { t } = useI18n()
+const colorMode = useColorMode()
+
+function getCssVar(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
 
 const sectionRef = ref<HTMLElement>()
 const revealWrapRef = ref<HTMLElement>()
@@ -604,10 +609,11 @@ function initAnimation() {
   st = tl.scrollTrigger as ScrollTrigger
 
   // Phase 1: word-by-word color reveal + blobs fade in
+  gsap.set(wordEls, { color: getCssVar('--title-word-dim') })
   tl.to(wordEls, {
     keyframes: [
-      { color: '#d4d4d8', duration: 0.04 },
-      { color: '#ffffff', duration: 0.04 }
+      { color: getCssVar('--title-word-dim'), duration: 0.01 },
+      { color: getCssVar('--title-word-bright'), duration: 0.04 }
     ],
     stagger: { each: 0.1 },
     ease: 'none'
@@ -658,11 +664,18 @@ onUnmounted(() => {
   clearTimeout(resizeTimer)
 })
 
+watch(() => colorMode.value, async () => {
+  killAnimation()
+  await nextTick()
+  initAnimation()
+  ScrollTrigger.refresh()
+})
+
 defineExpose({ initAnimation })
 </script>
 
 <template>
-  <section ref="sectionRef" class="relative bg-neutral-950 overflow-hidden" style="min-height: 100vh; perspective: 1200px; perspective-origin: 50% 80%">
+  <section ref="sectionRef" class="relative bg-white dark:bg-neutral-950 overflow-hidden" style="min-height: 100vh; perspective: 1200px; perspective-origin: 50% 80%">
 
     <!-- Blobs -->
     <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -675,7 +688,7 @@ defineExpose({ initAnimation })
       <div class="flex flex-col items-center gap-6">
         <p ref="headlinePRef" class="text-center text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
           <template v-for="(word, i) in words" :key="i">
-            <span class="title-word" style="color: #52525b">{{ word }}</span>{{ i < words.length - 1 ? ' ' : '' }}
+            <span class="title-word" style="color: var(--title-word-dim)">{{ word }}</span>{{ i < words.length - 1 ? ' ' : '' }}
           </template>
         </p>
 
@@ -683,7 +696,7 @@ defineExpose({ initAnimation })
         <div ref="statusRef" class="hidden lg:flex flex-col gap-2 w-full max-w-xs">
           <div class="flex items-center gap-1.5 mb-1">
             <UIcon v-if="stage >= 6" name="heroicons:check-circle-solid" class="w-4 h-4 text-primary-400" />
-            <p class="text-xs font-semibold uppercase tracking-widest" :class="stage >= 6 ? 'text-primary-400' : 'text-white/40'">
+            <p class="text-xs font-semibold uppercase tracking-widest" :class="stage >= 6 ? 'text-primary-400' : 'text-neutral-400 dark:text-white/40'">
               {{ stage >= 6 ? t('dry.refactor.done') : t('dry.refactor.inProgress') }}
             </p>
           </div>
@@ -697,7 +710,7 @@ defineExpose({ initAnimation })
                 <!-- Done -->
                 <template v-if="stage > step.stage || stage >= 6">
                   <UIcon name="heroicons:check-circle-solid" class="w-4 h-4 text-primary-400 shrink-0 mt-0.5" />
-                  <span class="text-white/50 line-through decoration-white/20">
+                  <span class="text-neutral-400 dark:text-white/50 line-through decoration-neutral-400/30 dark:decoration-white/20">
                     {{ step.label.replace('...', '') }}
                   </span>
                 </template>
@@ -706,7 +719,7 @@ defineExpose({ initAnimation })
                   <div class="w-4 h-4 shrink-0 mt-0.5 flex items-center justify-center">
                     <span class="block w-3 h-3 rounded-full border-2 border-primary-400 border-t-transparent animate-spin" />
                   </div>
-                  <span class="text-white/80">{{ step.label }}</span>
+                  <span class="text-neutral-700 dark:text-white/80">{{ step.label }}</span>
                 </template>
               </div>
             </Transition>
@@ -731,7 +744,7 @@ defineExpose({ initAnimation })
       <div
         v-if="stage >= 1"
         :key="stage"
-        class="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-neutral-900/90 backdrop-blur-md whitespace-nowrap text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)]"
+        class="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md whitespace-nowrap text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)]"
       >
         <template v-if="stage >= 6">
           <UIcon name="heroicons:check-circle-solid" class="w-4 h-4 text-primary-400 shrink-0" />
@@ -739,7 +752,7 @@ defineExpose({ initAnimation })
         </template>
         <template v-else>
           <span class="block w-3 h-3 rounded-full border-2 border-primary-400 border-t-transparent animate-spin shrink-0" />
-          <span class="text-xs font-mono text-white/80">{{ refactorSteps.find(s => s.stage === stage)?.label }}</span>
+          <span class="text-xs font-mono text-neutral-700 dark:text-white/80">{{ refactorSteps.find(s => s.stage === stage)?.label }}</span>
         </template>
       </div>
     </Transition>

@@ -2,7 +2,8 @@
 @import "@nuxt/ui";
 
 @theme static {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: 'Roboto', sans-serif;
+  --font-mono: 'Roboto Mono', monospace;
 
   /* Primary (green) */
   --color-green-50: #EFFDF5;
@@ -31,10 +32,39 @@
   --color-zinc-950: #0c0d0e;
 }
 
+html {
+  --title-word-dim: #d4d4d8;
+  --title-word-bright: #171717;
+}
+
+html.dark {
+  --title-word-dim: #52525b;
+  --title-word-bright: #ffffff;
+}
+
 html,
 body {
-  @apply bg-neutral-950 text-white;
+  @apply bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-white;
 }
+
+/* Readability: font */
+html[data-font="dyslexia"],
+html[data-font="dyslexia"] * {
+  font-family: 'Atkinson Hyperlegible', sans-serif !important;
+}
+html[data-font="legible"],
+html[data-font="legible"] * {
+  font-weight: 700 !important;
+}
+
+/* Readability: large cursor */
+html[data-cursor="large"],
+html[data-cursor="large"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M6 2 L6 32 L12 26 L18 38 L23 36 L17 24 L26 24 Z' fill='white' stroke='%230f172a' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E") 6 2, auto !important;
+}
+
+/* Readability: reading cursor — keep default pointer, overlay handled by AppCursor.vue */
+html[data-cursor="reading"] { cursor: default; }
 
 /* Override shiki syntax highlighter background injected via <style> tag */
 .shiki,

@@ -4,12 +4,49 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
+definePageMeta({
+  layout: 'default'
+})
+
+const seoTitle = computed(() =>
+  locale.value === 'es'
+    ? 'Daniel Martín Díaz — Senior Frontend Engineer Vue / Nuxt'
+    : 'Daniel Martín Díaz — Senior Frontend Engineer Vue / Nuxt'
+)
+
+const seoDescription = computed(() =>
+  locale.value === 'es'
+    ? 'Senior Frontend Engineer especializado en Vue y Nuxt. Combino ingeniería y visión de producto para construir sistemas frontend escalables con más de 6 años de experiencia.'
+    : 'Senior Frontend Engineer specialised in Vue and Nuxt. Engineering meets product vision — scalable, maintainable frontend systems with 6+ years of expertise.'
+)
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogImage: '/home-hero.jpeg',
+  ogType: 'website',
+  ogUrl: 'https://dmartindiaz.com',
+  ogLocale: computed(() => locale.value === 'es' ? 'es_ES' : 'en_US'),
+  twitterCard: 'summary_large_image',
+  twitterTitle: seoTitle,
+  twitterDescription: seoDescription,
+  twitterImage: '/home-hero.jpeg',
+  robots: 'index, follow',
+  author: 'Daniel Martín Díaz',
+  themeColor: '#0c0d0e'
+})
 
 const meRef = ref()
 const timelineRef = ref()
 const dryRef = ref()
 const stackRef = ref()
+
+const appReady = ref(false)
+const loadingDone = ref(false)
 
 onMounted(async () => {
   await nextTick()
@@ -18,10 +55,16 @@ onMounted(async () => {
   dryRef.value?.initAnimation()
   stackRef.value?.initAnimations()
   ScrollTrigger.refresh()
+  appReady.value = true
 })
 </script>
 
 <template>
+  <AppLoading
+    v-if="!loadingDone"
+    :ready="appReady"
+    @done="loadingDone = true"
+  />
   <AppHeader />
 
   <HomeHero
@@ -201,9 +244,7 @@ onMounted(async () => {
         size: 'default',
         tint: 'bg-neutral-900/60',
         image: '/projects/cardiosalus-app.png',
-        hideModalCtas: true,
-        primaryCta: { label: t('projects.items.2.primaryCta'), href: 'https://grupocardiosalus.es' },
-        secondaryCta: { label: t('projects.items.2.secondaryCta'), href: 'https://grupocardiosalus.es' }
+        primaryCta: { label: t('projects.items.2.primaryCta'), href: 'https://riberasalud.com/cardiosalus/app-ribera-cardiosalus/' }
       },
       {
         title: t('projects.items.3.title'),
@@ -220,9 +261,9 @@ onMounted(async () => {
         size: 'featured',
         tint: 'bg-neutral-900/60',
         image: '/projects/cluby.png',
-        hideModalCtas: true,
-        primaryCta: { label: t('projects.items.3.primaryCta'), href: 'https://cluby.es' },
-        secondaryCta: { label: t('projects.items.3.secondaryCta'), href: 'https://cluby.es' }
+        details: t('projects.items.3.details'),
+        secondaryCta: { label: t('projects.items.3.clientCta'), href: 'https://clubyapp.com/cluby_client_dev/' },
+        primaryCta: { label: t('projects.items.3.adminCta'), href: 'https://clubyapp.com/cluby_admin_dev/' }
       }
     ]"
   />
@@ -263,4 +304,3 @@ onMounted(async () => {
 
   <HomeContact />
 </template>
-

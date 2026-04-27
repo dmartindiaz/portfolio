@@ -79,7 +79,7 @@ withDefaults(defineProps<{
 </script>
 
 <template>
-  <section id="projects" class="relative px-8 py-24 bg-neutral-900 overflow-hidden">
+  <section id="projects" class="relative px-8 py-24 bg-neutral-50 dark:bg-neutral-900 overflow-hidden">
     <!-- Blobs -->
     <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <div class="absolute left-[10%] top-[20%] w-[500px] h-[500px] rounded-full bg-primary-500/10 blur-3xl" />
@@ -94,7 +94,7 @@ withDefaults(defineProps<{
           <span class="text-xs font-bold tracking-widest uppercase text-primary-400">
             {{ badge }}
           </span>
-          <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+          <h2 class="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white leading-tight">
             {{ title }}
           </h2>
         </div>
@@ -112,7 +112,7 @@ withDefaults(defineProps<{
               class="group relative rounded-2xl overflow-hidden cursor-pointer min-h-[280px] lg:min-h-0"
               :class="[
                 item.size === 'featured' ? 'lg:col-span-2' : 'lg:col-span-1',
-                (i === 0 || i === 3) ? 'border border-transparent' : 'border border-white/8'
+                (i === 0 || i === 3) ? 'border border-transparent' : 'border border-neutral-200 dark:border-white/8'
               ]"
             >
               <!-- Glow on first and fourth card -->
@@ -129,20 +129,22 @@ withDefaults(defineProps<{
                 <img
                   :src="item.image"
                   :alt="item.title"
-                  class="w-full h-full object-cover object-center scale-105 transition-all duration-700 group-hover:scale-100 brightness-[0.6] saturate-[0.3] group-hover:brightness-[0.75] group-hover:saturate-[0.5]"
+                  class="w-full h-full object-cover object-center scale-105 transition-all duration-700 group-hover:scale-100 brightness-[0.85] saturate-[0.6] dark:brightness-[0.6] dark:saturate-[0.3] group-hover:brightness-[0.95] group-hover:saturate-[0.75] dark:group-hover:brightness-[0.75] dark:group-hover:saturate-[0.5]"
                 >
                 <div class="absolute inset-0 bg-primary-500/20 mix-blend-overlay" />
                 <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E'); background-size: 256px 256px;" />
               </div>
 
-              <!-- Tint / base bg -->
+              <!-- Tint / base bg (dark only) -->
               <div
-                class="absolute inset-0 z-10 transition-opacity duration-300 group-hover:opacity-80"
+                class="absolute inset-0 z-10 transition-opacity duration-300 group-hover:opacity-80 hidden dark:block"
                 :class="item.tint ?? 'bg-neutral-900/70'"
               />
+              <!-- Light mode overlay -->
+              <div class="absolute inset-0 z-10 bg-white/80 dark:hidden" />
 
-              <!-- Bottom gradient -->
-              <div class="absolute inset-x-0 bottom-0 z-20 h-2/3 bg-gradient-to-t from-black/80 to-transparent" />
+              <!-- Bottom gradient (dark only) -->
+              <div class="absolute inset-x-0 bottom-0 z-20 h-2/3 bg-gradient-to-t from-black/80 to-transparent hidden dark:block" />
 
               <!-- Content -->
               <div class="absolute inset-x-0 bottom-0 z-30 p-6 flex flex-col gap-2">
@@ -151,32 +153,31 @@ withDefaults(defineProps<{
                   <span
                     v-for="tag in item.tags"
                     :key="tag"
-                    class="px-2.5 py-0.5 rounded-md text-xs font-bold tracking-wider uppercase bg-primary-400/15 text-primary-400 border border-primary-400/25"
+                    class="px-2.5 py-0.5 rounded-md text-xs font-bold tracking-wider uppercase bg-primary-500/20 dark:bg-primary-400/15 text-primary-700 dark:text-primary-400 border border-primary-500/40 dark:border-primary-400/25"
                   >
                     {{ tag }}
                   </span>
                 </div>
 
-                <h3 class="text-xl font-bold text-white leading-snug">{{ item.title }}</h3>
-                <p class="text-sm text-white/55 leading-relaxed">{{ item.description }}</p>
+                <h3 class="text-xl font-mono font-bold text-neutral-900 dark:text-white leading-snug drop-shadow-none dark:drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">{{ item.title }}</h3>
+                <p class="text-sm text-neutral-600 dark:text-white/70 leading-relaxed">{{ item.description }}</p>
 
                 <!-- More info -->
                 <div class="mt-2">
-                  <button
-                    type="button"
-                    class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg border border-primary-400/30 text-primary-400 text-xs font-bold hover:border-primary-400/60 hover:bg-primary-400/10 transition-all duration-200"
+                  <UButton
+                    color="primary"
+                    :leading-icon="'heroicons:information-circle'"
                     @click.stop="openModal()"
                   >
-                    <UIcon name="heroicons:information-circle" class="w-3.5 h-3.5" />
                     {{ moreInfoLabel }}
-                  </button>
+                  </UButton>
                 </div>
               </div>
 
               <!-- Hover border glow (only on non-Glow cards) -->
               <div
                 v-if="i !== 0 && i !== 3"
-                class="absolute inset-0 z-40 rounded-2xl ring-1 ring-inset ring-white/10 transition-all duration-300 group-hover:ring-primary-400/30 pointer-events-none"
+                class="absolute inset-0 z-40 rounded-2xl ring-1 ring-inset ring-neutral-200 dark:ring-white/10 transition-all duration-300 group-hover:ring-primary-400/30 pointer-events-none"
               />
             </div>
 

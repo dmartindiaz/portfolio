@@ -22,22 +22,22 @@ defineProps<{
 </script>
 
 <template>
-  <section id="hero" class="min-h-screen flex items-center px-8 py-16 bg-neutral-950">
+  <section id="hero" class="min-h-screen flex items-center px-8 py-16 bg-white dark:bg-neutral-950">
     <div class="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
       <!-- Left: content -->
       <div class="flex flex-col gap-7">
         <!-- Badge -->
         <div v-if="badge !== undefined">
-          <span class="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-white/70">
+          <span class="inline-flex items-center gap-2 border border-neutral-300 dark:border-white/20 rounded-full px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-neutral-600 dark:text-white/70">
             <span class="w-1.5 h-1.5 rounded-full bg-primary-400 shrink-0" />
             {{ badge }}
           </span>
         </div>
         <USkeleton v-else class="h-7 w-56 rounded-full" />
         <!-- Heading -->
-        <h1 v-if="titleBefore !== undefined || titleHighlight !== undefined || titleAfter !== undefined" class="font-bold leading-tight text-white">
-          <span v-if="titleBefore" class="block text-3xl md:text-5xl text-white/80">{{ titleBefore }}</span>
-          <em v-if="titleHighlight" class="not-italic italic text-primary-400 text-5xl md:text-7xl">{{ titleHighlight }}</em>
+        <h1 v-if="titleBefore !== undefined || titleHighlight !== undefined || titleAfter !== undefined" class="font-mono font-bold leading-tight text-neutral-900 dark:text-white">
+          <span v-if="titleBefore" class="block text-3xl md:text-5xl text-neutral-700 dark:text-white/80">{{ titleBefore }}</span>
+          <em v-if="titleHighlight" class="not-italic italic font-sans text-primary-400 text-5xl md:text-7xl">{{ titleHighlight }}</em>
           <br v-if="titleHighlight">
           <span v-if="titleAfter" class="text-5xl md:text-7xl">{{ titleAfter }}</span>
         </h1>
@@ -47,7 +47,7 @@ defineProps<{
           <USkeleton class="h-[72px] w-2/3 rounded-xl" />
         </div>
         <!-- Description -->
-        <p v-if="description !== undefined" class="text-base md:text-lg text-white/55 max-w-sm leading-relaxed">
+        <p v-if="description !== undefined" class="text-base md:text-lg text-neutral-500 dark:text-white/55 max-w-sm leading-relaxed">
           {{ description }}
         </p>
         <div v-else class="flex flex-col gap-2.5 max-w-sm">

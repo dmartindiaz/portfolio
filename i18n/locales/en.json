@@ -67,8 +67,8 @@
   },
   "contact": {
     "badge": "Contact",
-    "title": "Let's work together.",
-    "description": "Open to senior frontend roles, freelance collaborations and technical consulting. Drop me a line.",
+    "title": "Got something interesting?",
+    "description": "If you have a compelling technical challenge, a Tech Lead or Senior Frontend role, or just want to talk engineering — I'm happy to listen.",
     "comingSoon": "Coming soon",
     "form": {
       "name": "Name",
@@ -77,7 +77,10 @@
       "emailPlaceholder": "your{'@'}email.com",
       "message": "Message",
       "messagePlaceholder": "Tell me about your project...",
-      "submit": "Send message"
+      "submit": "Send message",
+      "sending": "Sending...",
+      "success": "Message sent! I'll get back to you soon.",
+      "error": "Something went wrong. Please try again."
     },
     "info": {
       "phone": "Phone",
@@ -210,8 +213,7 @@
           "Patient area: access personal medical records, consultation history and clinical documentation directly from the app.",
           "Digital document signing integrated into the patient workflow, removing paper from routine administrative processes."
         ],
-        "primaryCta": "View App",
-        "secondaryCta": "Cardiosalus"
+        "primaryCta": "Go to App"
       },
       {
         "title": "Cluby SaaS",
@@ -224,8 +226,9 @@
           "Frontend developed with Angular + PrimeNG; backend with NestJS + Node.js; infrastructure orchestrated with Docker and Docker Compose on Linux.",
           "Designed a white-label theming system for municipal deployments, allowing each entity to operate under its own brand with zero code changes."
         ],
-        "primaryCta": "View Project",
-        "secondaryCta": "Cluby"
+        "adminCta": "Demo Admin",
+        "clientCta": "Demo Client",
+        "details": "Demo credentials — User: admin1 · Password: demo{'@'}conecta-2s.com · PIN: Temporal.123. Test environment; some features may be outdated."
       }
     ]
   },
@@ -251,5 +254,40 @@
         "description": "Dual background in Telecom/IT and Marketing. I understand users, business goals and technical constraints—and I bridge all three."
       }
     }
+  },
+  "loading": {
+    "label1": "Initializing stack...",
+    "label2": "Loading components...",
+    "label3": "Mounting animations...",
+    "label4": "Calibrating scroll...",
+    "label5": "Almost there..."
+  },
+  "readability": {
+    "title": "Readability",
+    "toolsTitle": "Accessibility tools",
+    "close": "Close",
+    "description": "Customise your reading experience: adjust saturation, font, spacing and line height to make this site easier to read for you.",
+    "saturation": "Saturation",
+    "satNormal": "Normal",
+    "satLow": "Low sat.",
+    "satHigh": "High sat.",
+    "satNone": "Greyscale",
+    "font": "Font",
+    "fontNormal": "Normal",
+    "fontDyslexia": "Dyslexia",
+    "fontLegible": "Legible",
+    "spacing": "Spacing",
+    "spacingValue": "Normal",
+    "lineHeight": "Line height",
+    "lineHeightValue": "Normal",
+    "cursor": "Cursor",
+    "cursorNormal": "Normal",
+    "cursorLarge": "Large",
+    "cursorReading": "Reading",
+    "contrast": "Contrast",
+    "contrastNormal": "Cont. normal",
+    "contrastInvert": "Inverted",
+    "contrastDark": "Dark",
+    "contrastHigh": "High cont."
   }
 }

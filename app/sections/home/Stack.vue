@@ -140,7 +140,7 @@ defineExpose({ initAnimations })
 </script>
 
 <template>
-  <section id="stack" ref="sectionRef" class="relative px-4 sm:px-8 py-16 md:py-24 bg-neutral-900 overflow-hidden">
+  <section id="stack" ref="sectionRef" class="relative px-4 sm:px-8 py-16 md:py-24 bg-neutral-50 dark:bg-neutral-900 overflow-hidden">
 
     <!-- Blobs -->
     <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
@@ -156,10 +156,10 @@ defineExpose({ initAnimations })
           <span class="anim-left text-xs font-bold tracking-widest uppercase text-primary-400">
             {{ badge }}
           </span>
-          <h2 class="anim-left text-4xl md:text-5xl font-bold text-white leading-tight">
+          <h2 class="anim-left text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white leading-tight">
             {{ title }}
           </h2>
-          <p class="anim-left text-base text-white/55 leading-relaxed">
+          <p class="anim-left text-base text-neutral-500 dark:text-white/55 leading-relaxed">
             {{ description }}
           </p>
         </div>
@@ -172,7 +172,7 @@ defineExpose({ initAnimations })
             class="anim-tag inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200 cursor-default"
             :class="(typeof tag === 'object' && tag.featured)
               ? 'border-primary-400/40 bg-primary-400/10 text-primary-400 hover:bg-primary-400/20 hover:border-primary-400/60 hover:shadow-[0_0_12px_2px_rgba(var(--ui-primary)/0.25)]'
-              : 'border-white/10 bg-white/4 text-white/70 hover:border-white/25 hover:bg-white/8 hover:text-white'"
+              : 'border-neutral-200 dark:border-white/10 bg-neutral-100/80 dark:bg-white/4 text-neutral-600 dark:text-white/70 hover:border-neutral-300 dark:hover:border-white/25 hover:bg-neutral-100 dark:hover:bg-white/8 hover:text-neutral-900 dark:hover:text-white'"
           >
             <UIcon
               v-if="typeof tag === 'object' && tag.icon"
@@ -191,13 +191,13 @@ defineExpose({ initAnimations })
         <div
           ref="featuredCardRef"
           v-if="featuredCard"
-          class="relative rounded-2xl p-5 sm:p-6 flex items-center gap-5 sm:gap-8 border border-white/10 bg-neutral-800/60 backdrop-blur-sm overflow-hidden"
+          class="relative rounded-2xl p-5 sm:p-6 flex items-center gap-5 sm:gap-8 border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-800/60 backdrop-blur-sm overflow-hidden"
         >
           <Glow :border-radius="16" color="#41b883" :border-width="1" :duration="8" />
           <UIcon name="logos:vue" class="w-14 h-14 sm:w-20 sm:h-20 shrink-0 opacity-90" />
           <div class="flex flex-col gap-2">
-            <p class="text-base sm:text-lg font-bold text-white leading-snug">{{ featuredCard.title }}</p>
-            <p class="text-sm text-white/55 leading-relaxed">{{ featuredCard.description }}</p>
+            <p class="text-base sm:text-lg font-mono font-bold text-neutral-900 dark:text-white leading-snug">{{ featuredCard.title }}</p>
+            <p class="text-sm text-neutral-500 dark:text-white/55 leading-relaxed">{{ featuredCard.description }}</p>
           </div>
         </div>
 
@@ -207,16 +207,16 @@ defineExpose({ initAnimations })
             v-for="(card, i) in regularCards"
             :key="i"
             :ref="el => { if (el) regularCardsRef[i] = el as HTMLElement }"
-            class="relative rounded-2xl p-6 flex flex-col gap-3 border border-white/8 bg-neutral-800/40 text-white hover:border-white/20 hover:bg-neutral-800/70 transition-all duration-300 overflow-hidden"
+            class="relative rounded-2xl p-6 flex flex-col gap-3 border border-neutral-200 dark:border-white/8 bg-neutral-100/70 dark:bg-neutral-800/40 text-neutral-900 dark:text-white hover:border-neutral-300 dark:hover:border-white/20 hover:bg-neutral-100 dark:hover:bg-neutral-800/70 transition-all duration-300 overflow-hidden"
           >
             <!-- Decorative number -->
-            <span class="absolute top-3 right-4 text-5xl font-black text-white/[0.04] leading-none select-none tabular-nums">
+            <span class="absolute top-3 right-4 text-5xl font-black text-neutral-900/[0.06] dark:text-white/[0.04] leading-none select-none tabular-nums">
               {{ String(i + 1).padStart(2, '0') }}
             </span>
 
             <UIcon :name="card.icon" class="w-6 h-6 text-primary-400 relative z-10" />
-            <p class="text-base font-bold text-white leading-snug break-words relative z-10">{{ card.title }}</p>
-            <p class="text-sm text-white/55 leading-relaxed break-words relative z-10">{{ card.description }}</p>
+            <p class="text-base font-bold text-neutral-900 dark:text-white leading-snug break-words relative z-10">{{ card.title }}</p>
+            <p class="text-sm text-neutral-500 dark:text-white/55 leading-relaxed break-words relative z-10">{{ card.description }}</p>
           </div>
         </div>
 

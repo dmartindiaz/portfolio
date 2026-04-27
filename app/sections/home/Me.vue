@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+const colorMode = useColorMode()
+
+function getCssVar(name: string) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
 
 interface Highlight {
   text: string
@@ -99,7 +104,7 @@ function initAnimations() {
   const wordEls = titleRef.value?.querySelectorAll<HTMLElement>('.title-word')
   if (wordEls?.length) {
     // Reset word colors to initial dim state before re-animating
-    gsap.set(wordEls, { color: '#52525b' })
+    gsap.set(wordEls, { color: getCssVar('--title-word-dim') })
 
     st = ScrollTrigger.create({
       trigger: titleRef.value,
@@ -108,8 +113,8 @@ function initAnimations() {
       scrub: 1,
       animation: gsap.to(wordEls, {
         keyframes: [
-          { color: '#d4d4d8', duration: 0.04 },
-          { color: '#ffffff', duration: 0.04 }
+          { color: getCssVar('--title-word-dim'), duration: 0.01 },
+          { color: getCssVar('--title-word-bright'), duration: 0.04 }
         ],
         stagger: { each: 0.1 },
         ease: 'none'
@@ -187,6 +192,10 @@ onMounted(() => {
   })
 })
 
+watch(() => colorMode.value, () => {
+  initAnimations()
+})
+
 defineExpose({ initAnimations })
 
 onUnmounted(() => {
@@ -196,7 +205,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <section id="about" ref="sectionRef" class="relative bg-neutral-900 overflow-hidden">
+  <section id="about" ref="sectionRef" class="relative bg-neutral-50 dark:bg-neutral-900 overflow-hidden">
     <!-- blobs que suben con el scroll -->
     <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <div ref="blob1Ref" class="absolute left-[20%] w-[500px] h-[500px] rounded-full bg-primary-500/10 blur-3xl" />
@@ -219,20 +228,20 @@ onUnmounted(() => {
           {{ badge ?? 'Section' }}
         </span>
 
-        <h2 ref="titleRef" class="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-white">
+        <h2 ref="titleRef" class="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] text-neutral-900 dark:text-white">
           <span class="block">
             <template v-for="(word, wi) in titleLines[0]?.split(' ')" :key="wi">
-              <span class="title-word" style="color: #52525b">{{ word }}</span>{{ wi < (titleLines[0]?.split(' ')?.length ?? 0) - 1 ? ' ' : '' }}
+              <span class="title-word" style="color: var(--title-word-dim)">{{ word }}</span>{{ wi < (titleLines[0]?.split(' ')?.length ?? 0) - 1 ? ' ' : '' }}
             </template>
           </span>
           <span class="block">
             <template v-for="(word, wi) in titleLines[1]?.split(' ')" :key="wi">
-              <span class="title-word" style="color: #52525b">{{ word }}</span>{{ wi < (titleLines[1]?.split(' ')?.length ?? 0) - 1 ? ' ' : '' }}
+              <span class="title-word" style="color: var(--title-word-dim)">{{ word }}</span>{{ wi < (titleLines[1]?.split(' ')?.length ?? 0) - 1 ? ' ' : '' }}
             </template>
           </span>
         </h2>
 
-        <p class="text-base md:text-lg text-white/60 leading-relaxed max-w-sm">
+        <p class="text-base md:text-lg text-neutral-500 dark:text-white/60 leading-relaxed max-w-sm">
           <template v-if="body !== undefined && highlights !== undefined" v-for="(segment, i) in parseBody(body, highlights)" :key="i">
             <a
               v-if="segment.href"
@@ -252,11 +261,11 @@ onUnmounted(() => {
         <div
           v-for="(card, i) in (cards ?? DEFAULT_CARDS)"
           :key="i"
-          class="anim-card w-full md:max-w-sm rounded-xl border border-white/10 bg-white/5 backdrop-blur-md p-6 flex flex-col gap-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
+          class="anim-card w-full md:max-w-sm rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-100/80 dark:bg-white/5 backdrop-blur-md p-6 flex flex-col gap-3 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
         >
           <UIcon :name="card.icon" class="text-primary-400 text-2xl w-7 h-7" />
-          <p class="text-base font-semibold text-white">{{ card.title }}</p>
-          <p class="text-sm text-white/55 leading-relaxed">{{ card.description }}</p>
+          <p class="text-base font-semibold text-neutral-900 dark:text-white">{{ card.title }}</p>
+          <p class="text-sm text-neutral-500 dark:text-white/55 leading-relaxed">{{ card.description }}</p>
         </div>
       </div>
 

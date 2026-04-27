@@ -3,6 +3,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const { t } = useI18n()
 const { locale, setLocale } = useI18n()
+const colorMode = useColorMode()
+
+function toggleColorMode() {
+  colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
 
 const scrolled = ref(false)
 
@@ -21,10 +26,6 @@ const navLinks = computed(() => [
   { label: t('nav.contact'), href: '#contact' },
 ])
 
-function toggleLocale() {
-  setLocale(locale.value === 'en' ? 'es' : 'en')
-}
-
 function scrollTo(href: string) {
   const el = document.querySelector(href)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -36,11 +37,15 @@ function scrollTo(href: string) {
     <nav
       class="mx-auto max-w-6xl flex items-center justify-between gap-4 px-4 sm:px-6 py-3 rounded-2xl border transition-all duration-300 pointer-events-auto"
       :class="scrolled
-        ? 'bg-white/[0.06] backdrop-blur-xl border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]'
-        : 'bg-white/[0.03] backdrop-blur-md border-white/8 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'"
+        ? 'bg-white/80 dark:bg-white/6 backdrop-blur-xl border-neutral-200 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]'
+        : 'bg-white/60 dark:bg-white/3 backdrop-blur-md border-neutral-200/60 dark:border-white/8 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'"
     >
       <!-- Logo -->
-      <a href="#hero" class="shrink-0" @click.prevent="scrollTo('#hero')">
+      <a
+        href="#hero"
+        class="shrink-0"
+        @click.prevent="scrollTo('#hero')"
+      >
         <img
           src="/home-hero-draw.jpeg"
           alt="Logo"
@@ -50,10 +55,13 @@ function scrollTo(href: string) {
 
       <!-- Nav links — hidden on mobile -->
       <ul class="hidden md:flex items-center gap-1">
-        <li v-for="link in navLinks" :key="link.href">
+        <li
+          v-for="link in navLinks"
+          :key="link.href"
+        >
           <a
             :href="link.href"
-            class="px-3 py-1.5 text-sm text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-200"
+            class="px-3 py-1.5 text-sm text-neutral-500 dark:text-white/50 hover:text-neutral-900 dark:hover:text-white rounded-lg hover:bg-neutral-100 dark:hover:bg-white/5 transition-all duration-200"
             @click.prevent="scrollTo(link.href)"
           >
             {{ link.label }}
@@ -61,13 +69,54 @@ function scrollTo(href: string) {
         </li>
       </ul>
 
-      <!-- Right: locale toggle -->
-      <button
-        class="text-xs font-bold tracking-widest uppercase text-white/40 hover:text-white transition-colors duration-200 px-2 py-1 rounded-lg hover:bg-white/5"
-        @click="toggleLocale"
-      >
-        {{ locale === 'en' ? 'ES' : 'EN' }}
-      </button>
+      <!-- Right: controls -->
+      <div class="flex items-center gap-2">
+        <!-- Locale toggle -->
+        <div class="flex items-center gap-0.5 rounded-lg border border-neutral-200 dark:border-white/10 p-0.5 bg-neutral-100/50 dark:bg-white/3">
+          <button
+            v-for="lang in ['en', 'es']"
+            :key="lang"
+            class="px-2.5 py-1 text-xs font-bold tracking-widest uppercase rounded-md transition-all duration-200"
+            :class="locale === lang
+              ? 'bg-neutral-200 dark:bg-white/15 text-neutral-900 dark:text-white shadow-sm'
+              : 'text-neutral-400 dark:text-white/35 hover:text-neutral-700 dark:hover:text-white/60'"
+            @click="setLocale(lang as 'en' | 'es')"
+          >
+            {{ lang }}
+          </button>
+        </div>
+
+        <!-- Color mode toggle -->
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-xl transition-all duration-200 overflow-hidden"
+          :class="colorMode.value === 'dark'
+            ? 'hover:bg-white/10'
+            : 'hover:bg-neutral-200'"
+          :title="colorMode.value === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+          @click="toggleColorMode"
+        >
+          <Transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 scale-50 rotate-90"
+            enter-to-class="opacity-100 scale-100 rotate-0"
+            leave-active-class="transition-all duration-200 ease-in"
+            leave-from-class="opacity-100 scale-100 rotate-0"
+            leave-to-class="opacity-0 scale-50 -rotate-90"
+            mode="out-in"
+          >
+            <span
+              v-if="colorMode.value === 'dark'"
+              key="moon"
+              class="text-lg leading-none select-none"
+            >🌙</span>
+            <span
+              v-else
+              key="sun"
+              class="text-lg leading-none select-none"
+            >☀️</span>
+          </Transition>
+        </button>
+      </div>
     </nav>
   </header>
 </template>
