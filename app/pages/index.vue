@@ -5,7 +5,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const { t, locale } = useI18n()
-const route = useRoute()
 
 definePageMeta({
   layout: 'default'
@@ -23,7 +22,7 @@ const seoDescription = computed(() =>
     : 'Senior Frontend Engineer specialised in Vue and Nuxt. Engineering meets product vision — scalable, maintainable frontend systems with 6+ years of expertise.'
 )
 
-const seoUrl = computed(() => `https://dmartindiaz.com${route.fullPath}`)
+const ogLocale = computed(() => locale.value === 'es' ? 'es_ES' : 'en_US')
 
 useSeoMeta({
   title: seoTitle,
@@ -36,8 +35,8 @@ useSeoMeta({
   ogImageHeight: 630,
   ogType: 'website',
   ogSiteName: 'Daniel Martín Díaz',
-  ogUrl: seoUrl,
-  ogLocale: computed(() => locale.value === 'es' ? 'es_ES' : 'en_US'),
+  ogUrl: 'https://dmartindiaz.com',
+  ogLocale: ogLocale,
   twitterCard: 'summary_large_image',
   twitterTitle: seoTitle,
   twitterDescription: seoDescription,

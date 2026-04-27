@@ -744,7 +744,7 @@ defineExpose({ initAnimation })
       <div
         v-if="stage >= 1"
         :key="stage"
-        class="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md whitespace-nowrap text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)]"
+        class="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)] max-w-[calc(100vw-3rem)] overflow-hidden"
       >
         <template v-if="stage >= 6">
           <UIcon name="heroicons:check-circle-solid" class="w-4 h-4 text-primary-400 shrink-0" />
@@ -752,7 +752,7 @@ defineExpose({ initAnimation })
         </template>
         <template v-else>
           <span class="block w-3 h-3 rounded-full border-2 border-primary-400 border-t-transparent animate-spin shrink-0" />
-          <span class="text-xs font-mono text-neutral-700 dark:text-white/80">{{ refactorSteps.find(s => s.stage === stage)?.label }}</span>
+          <span class="text-xs font-mono text-neutral-700 dark:text-white/80 truncate">{{ refactorSteps.find(s => s.stage === stage)?.label }}</span>
         </template>
       </div>
     </Transition>

@@ -242,38 +242,40 @@ withDefaults(defineProps<{
               <!-- Footer CTAs -->
               <AnimatedModalFooter
                 v-if="!item.hideModalCtas && (item.primaryCta || item.secondaryCta || item.docsCta)"
-                class="dark:bg-neutral-900 gap-2"
+                class="dark:bg-neutral-900 gap-2 flex-wrap"
               >
                 <a
                   v-if="item.docsCta"
                   :href="item.docsCta.href"
                   target="_blank"
                   rel="noopener"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200 mr-auto"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200 mr-auto shrink-0"
                 >
-                  <UIcon name="heroicons:book-open" class="w-4 h-4" />
+                  <UIcon name="heroicons:book-open" class="w-4 h-4 shrink-0" />
                   {{ item.docsCta.label }}
                 </a>
-                <a
-                  v-if="item.secondaryCta"
-                  :href="item.secondaryCta.href"
-                  target="_blank"
-                  rel="noopener"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200"
-                >
-                  {{ item.secondaryCta.label }}
-                  <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4" />
-                </a>
-                <a
-                  v-if="item.primaryCta"
-                  :href="item.primaryCta.href"
-                  target="_blank"
-                  rel="noopener"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-400 text-neutral-950 text-sm font-bold hover:bg-primary-300 transition-colors duration-200"
-                >
-                  {{ item.primaryCta.label }}
-                  <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4" />
-                </a>
+                <div class="flex items-center gap-2 shrink-0">
+                  <a
+                    v-if="item.secondaryCta"
+                    :href="item.secondaryCta.href"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200"
+                  >
+                    {{ item.secondaryCta.label }}
+                    <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4 shrink-0" />
+                  </a>
+                  <a
+                    v-if="item.primaryCta"
+                    :href="item.primaryCta.href"
+                    target="_blank"
+                    rel="noopener"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary-400 text-neutral-950 text-sm font-bold hover:bg-primary-300 transition-colors duration-200"
+                  >
+                    {{ item.primaryCta.label }}
+                    <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4 shrink-0" />
+                  </a>
+                </div>
               </AnimatedModalFooter>
             </AnimatedModalBody>
           </template>

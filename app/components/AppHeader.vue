@@ -39,8 +39,8 @@ function scrollTo(href: string) {
     <nav
       class="mx-auto max-w-6xl flex items-center justify-between gap-4 px-4 sm:px-6 py-3 rounded-2xl border transition-all duration-300 pointer-events-auto"
       :class="scrolled
-        ? 'bg-white/80 dark:bg-white/6 backdrop-blur-xl border-neutral-200 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]'
-        : 'bg-white/60 dark:bg-white/3 backdrop-blur-md border-neutral-200/60 dark:border-white/8 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'"
+        ? 'bg-white/40 dark:bg-white/6 backdrop-blur-xl border-neutral-200/80 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]'
+        : 'bg-white/25 dark:bg-white/3 backdrop-blur-md border-neutral-200/40 dark:border-white/8 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'"
     >
       <!-- Logo -->
       <a
@@ -147,8 +147,8 @@ function scrollTo(href: string) {
         v-if="mobileOpen"
         class="md:hidden mx-auto max-w-6xl mt-2 rounded-2xl border px-4 py-3 pointer-events-auto"
         :class="scrolled
-          ? 'bg-white/90 dark:bg-neutral-900/90 backdrop-blur-xl border-neutral-200 dark:border-white/15'
-          : 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-neutral-200/60 dark:border-white/8'"
+          ? 'bg-white/50 dark:bg-neutral-900/90 backdrop-blur-xl border-neutral-200/80 dark:border-white/15'
+          : 'bg-white/35 dark:bg-neutral-900/80 backdrop-blur-md border-neutral-200/40 dark:border-white/8'"
       >
         <ul class="flex flex-col gap-1">
           <li

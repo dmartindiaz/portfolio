@@ -42,7 +42,7 @@ export default defineNuxtConfig({
       { code: 'es', language: 'es-ES', file: 'es.json', name: 'Español' }
     ],
     defaultLocale: 'en',
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     langDir: 'locales/',
     baseUrl: 'https://dmartindiaz.com'
   },

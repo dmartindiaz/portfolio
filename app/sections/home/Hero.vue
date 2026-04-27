@@ -22,7 +22,7 @@ defineProps<{
 </script>
 
 <template>
-  <section id="hero" class="min-h-screen flex items-center px-8 py-16 bg-white dark:bg-neutral-950">
+  <section id="hero" class="min-h-screen flex items-center px-8 pt-28 pb-16 md:py-16 bg-white dark:bg-neutral-950">
     <div class="mx-auto w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
       <!-- Left: content -->
       <div class="flex flex-col gap-7">
