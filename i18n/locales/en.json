@@ -90,6 +90,10 @@
   },
   "dry": {
     "headline": "Arquitectura que escala.",
+    "ide": {
+      "focus": "Scroll",
+      "unfocus": "Exit"
+    },
     "refactor": {
       "inProgress": "Refactoring...",
       "done": "Refactoring complete",
@@ -228,7 +232,7 @@
         ],
         "adminCta": "Demo Admin",
         "clientCta": "Demo Client",
-        "details": "Demo credentials — User: admin1 · Password: demo{'@'}conecta-2s.com · PIN: Temporal.123. Test environment; some features may be outdated."
+        "credentialsNote": "Test environment — some features may be outdated."
       }
     ]
   },

@@ -203,11 +203,6 @@ onUnmounted(() => {
           >
         </div>
 
-        <!-- Corner brackets decoration -->
-        <div class="absolute -top-2 -left-2 w-5 h-5 border-t-2 border-l-2 border-primary-400/60" />
-        <div class="absolute -top-2 -right-2 w-5 h-5 border-t-2 border-r-2 border-primary-400/60" />
-        <div class="absolute -bottom-2 -left-2 w-5 h-5 border-b-2 border-l-2 border-primary-400/60" />
-        <div class="absolute -bottom-2 -right-2 w-5 h-5 border-b-2 border-r-2 border-primary-400/60" />
       </div>
 
       <!-- Counter -->

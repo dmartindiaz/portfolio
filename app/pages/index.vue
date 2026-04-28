@@ -267,7 +267,7 @@ onMounted(async () => {
         size: 'featured',
         tint: 'bg-neutral-900/60',
         image: '/projects/cluby.png',
-        details: t('projects.items.3.details'),
+        credentials: { user: 'admin1_demo@conecta-2s.com', password: 'Temporal.123', note: t('projects.items.3.credentialsNote') },
         secondaryCta: { label: t('projects.items.3.clientCta'), href: 'https://clubyapp.com/cluby_client_dev/' },
         primaryCta: { label: t('projects.items.3.adminCta'), href: 'https://clubyapp.com/cluby_admin_dev/' }
       }

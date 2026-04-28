@@ -119,25 +119,23 @@ const leafFiles = computed(() => flattenLeaves((props.tree ?? []) as TreeItemWit
           </div>
         </div>
 
-        <!-- Compact icon-only panel -->
+        <!-- Compact icon + label panel -->
         <div
           v-else-if="explorerOpen && compact"
-          class="w-10 bg-neutral-900 flex flex-col items-center py-2 gap-1 overflow-y-auto shrink-0 border-r border-white/5"
+          class="w-14 bg-neutral-900 flex flex-col items-center py-2 gap-1 overflow-y-auto shrink-0 border-r border-white/5"
         >
           <button
             v-for="file in leafFiles"
             :key="file.label"
-            class="w-8 h-8 flex items-center justify-center rounded-md transition-colors"
+            class="w-12 flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-md transition-colors"
             :class="selectedFile?.endsWith(file.label)
               ? 'text-primary-400 bg-white/8'
               : 'text-white/35 hover:text-white/70 hover:bg-white/5'"
             :title="file.label"
             @click="file.onSelect?.()"
           >
-            <UIcon
-              :name="file.icon"
-              class="w-4 h-4"
-            />
+            <UIcon :name="file.icon" class="w-4 h-4 shrink-0" />
+            <span class="text-[7px] leading-tight text-center w-full truncate">{{ file.label }}</span>
           </button>
         </div>
       </Transition>

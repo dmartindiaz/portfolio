@@ -90,6 +90,10 @@
   },
   "dry": {
     "headline": "Arquitectura que escala.",
+    "ide": {
+      "focus": "Scroll",
+      "unfocus": "Salir"
+    },
     "refactor": {
       "inProgress": "Refactorizando...",
       "done": "Refactorización completada",
@@ -228,7 +232,7 @@
         ],
         "adminCta": "Demo Admin",
         "clientCta": "Demo Cliente",
-        "details": "Credenciales de demo — Usuario: admin1 · Contraseña: demo{'@'}conecta-2s.com · PIN: Temporal.123. Entorno de pruebas; algunas funcionalidades pueden estar desactualizadas."
+        "credentialsNote": "Entorno de pruebas — algunas funcionalidades pueden estar desactualizadas."
       }
     ]
   },

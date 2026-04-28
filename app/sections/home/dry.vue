@@ -16,6 +16,14 @@ const revealWrapRef = ref<HTMLElement>()
 const ideWrapRef = ref<HTMLElement>()
 const statusRef = ref<HTMLElement>()
 const isMobileIDE = ref(false)
+const ideFocused = ref(false)
+
+function setIdeFocus(val: boolean) {
+  ideFocused.value = val
+  if (isMobileIDE.value) {
+    ScrollTrigger.normalizeScroll(!val)
+  }
+}
 const blob1Ref = ref<HTMLElement>()
 const blob2Ref = ref<HTMLElement>()
 const headlinePRef = ref<HTMLElement>()
@@ -744,7 +752,7 @@ defineExpose({ initAnimation })
       <div
         v-if="stage >= 1"
         :key="stage"
-        class="lg:hidden absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)] max-w-[calc(100vw-3rem)] overflow-hidden"
+        class="lg:hidden absolute bottom-24 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3 px-5 py-3 rounded-full border border-primary-400/30 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md text-sm shadow-[0_0_24px_4px_rgba(var(--ui-primary)/0.45),0_0_8px_2px_rgba(var(--ui-primary)/0.25)] max-w-[calc(100vw-3rem)] overflow-hidden"
       >
         <template v-if="stage >= 6">
           <UIcon name="heroicons:check-circle-solid" class="w-4 h-4 text-primary-400 shrink-0" />
@@ -778,15 +786,40 @@ defineExpose({ initAnimation })
               />
               {{ activeFile }}
             </div>
+            <!-- Focus button — mobile only -->
+            <button
+              v-if="isMobileIDE"
+              class="lg:hidden ml-auto mr-2 flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all duration-200"
+              :class="ideFocused
+                ? 'bg-primary-400/20 text-primary-400 border border-primary-400/40'
+                : 'text-white/30 hover:text-white/60 border border-white/10'"
+              @click="setIdeFocus(!ideFocused)"
+            >
+              <UIcon
+                :name="ideFocused ? 'ph:lock-open' : 'ph:lock-simple'"
+                class="w-3 h-3"
+              />
+              {{ ideFocused ? t('dry.ide.unfocus') : t('dry.ide.focus') }}
+            </button>
           </div>
 
           <!-- Code content -->
-          <div class="flex-1 min-h-0 overflow-y-auto bg-neutral-950 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!p-4 [&_code]:!text-xs lg:[&_code]:!text-sm [&_code]:!leading-5 lg:[&_code]:!leading-6 [&_code]:font-mono [&>div]:!mt-0 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30">
+          <div
+            class="flex-1 min-h-0 bg-neutral-950 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!p-4 [&_code]:!text-xs lg:[&_code]:!text-sm [&_code]:!leading-5 lg:[&_code]:!leading-6 [&_code]:font-mono [&>div]:!mt-0 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30"
+            :class="ideFocused ? 'overflow-y-auto' : 'overflow-hidden'"
+          >
             <MDC :key="activeFile" :value="activeCode" unwrap="p" />
           </div>
 
         </div>
       </IDE>
+
+      <!-- Touch capture overlay — blocks touch reaching IDE when not focused -->
+      <div
+        v-if="isMobileIDE && !ideFocused"
+        class="lg:hidden absolute inset-0 z-40 rounded-xl"
+        style="touch-action: none;"
+      />
     </div>
 
   </section>

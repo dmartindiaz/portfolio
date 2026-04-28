@@ -29,6 +29,8 @@ export interface ProjectItem {
   docsCta?: { label: string; href: string }
   /** If true, hides the footer CTAs inside the modal */
   hideModalCtas?: boolean
+  /** Demo credentials shown as a styled block inside the modal */
+  credentials?: { user: string; password: string; note?: string }
 }
 
 withDefaults(defineProps<{
@@ -190,22 +192,22 @@ withDefaults(defineProps<{
                   <!-- Header: role + period + tags -->
                   <div class="flex flex-col gap-3">
                     <div class="flex flex-wrap items-center gap-2">
-                      <span v-if="item.role" class="text-xs font-bold tracking-widest uppercase text-primary-400">
+                      <span v-if="item.role" class="text-xs font-bold tracking-widest uppercase text-primary-600 dark:text-primary-400">
                         {{ item.role }}
                       </span>
-                      <span v-if="item.role && item.period" class="text-white/20 text-xs">·</span>
-                      <span v-if="item.period" class="text-xs text-white/40 font-medium">
+                      <span v-if="item.role && item.period" class="text-neutral-300 dark:text-white/20 text-xs">·</span>
+                      <span v-if="item.period" class="text-xs text-neutral-500 dark:text-white/40 font-medium">
                         {{ item.period }}
                       </span>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-white leading-snug">{{ item.title }}</h2>
+                    <h2 class="text-2xl font-bold text-neutral-900 dark:text-white leading-snug">{{ item.title }}</h2>
 
                     <div v-if="item.tags?.length" class="flex flex-wrap gap-2">
                       <span
                         v-for="tag in item.tags"
                         :key="tag"
-                        class="px-2.5 py-0.5 rounded-md text-xs font-bold tracking-wider uppercase bg-primary-400/15 text-primary-400 border border-primary-400/25"
+                        class="px-2.5 py-0.5 rounded-md text-xs font-bold tracking-wider uppercase bg-primary-500/15 dark:bg-primary-400/15 text-primary-700 dark:text-primary-400 border border-primary-500/30 dark:border-primary-400/25"
                       >
                         {{ tag }}
                       </span>
@@ -213,26 +215,47 @@ withDefaults(defineProps<{
                   </div>
 
                   <!-- Description -->
-                  <p class="text-sm text-white/60 leading-relaxed">
+                  <p class="text-sm text-neutral-600 dark:text-white/60 leading-relaxed">
                     {{ item.description }}
                   </p>
 
                   <!-- Highlights -->
-                  <div v-if="item.highlights?.length" class="flex flex-col gap-3 border-t border-white/8 pt-5">
+                  <div v-if="item.highlights?.length" class="flex flex-col gap-3 border-t border-neutral-200 dark:border-white/8 pt-5">
                     <div
                       v-for="(h, hi) in item.highlights"
                       :key="hi"
                       class="flex items-start gap-3"
                     >
-                      <span class="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-primary-400/15 border border-primary-400/25 flex items-center justify-center">
-                        <UIcon name="heroicons:check" class="w-3 h-3 text-primary-400" />
+                      <span class="mt-0.5 shrink-0 w-5 h-5 rounded-full bg-primary-500/15 dark:bg-primary-400/15 border border-primary-500/30 dark:border-primary-400/25 flex items-center justify-center">
+                        <UIcon name="heroicons:check" class="w-3 h-3 text-primary-600 dark:text-primary-400" />
                       </span>
-                      <p class="text-sm text-white/60 leading-relaxed">{{ h }}</p>
+                      <p class="text-sm text-neutral-600 dark:text-white/60 leading-relaxed">{{ h }}</p>
                     </div>
                   </div>
 
+                  <!-- Demo credentials -->
+                  <div v-if="item.credentials" class="border-t border-neutral-200 dark:border-white/8 pt-4 flex flex-col gap-2">
+                    <div class="flex items-center gap-2 mb-1">
+                      <UIcon name="heroicons:key" class="w-4 h-4 text-primary-600 dark:text-primary-400 shrink-0" />
+                      <span class="text-xs font-bold tracking-widest uppercase text-neutral-500 dark:text-white/40">Demo credentials</span>
+                    </div>
+                    <div class="rounded-lg bg-neutral-100 dark:bg-white/5 border border-neutral-200 dark:border-white/8 px-4 py-3 flex flex-col gap-2 font-mono">
+                      <div class="flex items-center gap-3">
+                        <span class="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-white/30 w-16 shrink-0">User</span>
+                        <span class="text-xs text-neutral-700 dark:text-white/70 select-all">{{ item.credentials.user }}</span>
+                      </div>
+                      <div class="flex items-center gap-3">
+                        <span class="text-[10px] uppercase tracking-wider text-neutral-400 dark:text-white/30 w-16 shrink-0">Pass</span>
+                        <span class="text-xs text-neutral-700 dark:text-white/70 select-all">{{ item.credentials.password }}</span>
+                      </div>
+                    </div>
+                    <p v-if="item.credentials.note" class="text-[11px] text-neutral-400 dark:text-white/30 leading-relaxed">
+                      {{ item.credentials.note }}
+                    </p>
+                  </div>
+
                   <!-- Extra details -->
-                  <p v-if="item.details" class="text-sm text-white/40 leading-relaxed border-t border-white/8 pt-4">
+                  <p v-if="item.details" class="text-sm text-neutral-500 dark:text-white/40 leading-relaxed border-t border-neutral-200 dark:border-white/8 pt-4">
                     {{ item.details }}
                   </p>
 
@@ -242,14 +265,14 @@ withDefaults(defineProps<{
               <!-- Footer CTAs -->
               <AnimatedModalFooter
                 v-if="!item.hideModalCtas && (item.primaryCta || item.secondaryCta || item.docsCta)"
-                class="dark:bg-neutral-900 gap-2 flex-wrap"
+                class="bg-neutral-50 dark:bg-neutral-900 gap-2 flex-wrap"
               >
                 <a
                   v-if="item.docsCta"
                   :href="item.docsCta.href"
                   target="_blank"
                   rel="noopener"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200 mr-auto shrink-0"
+                  class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-300 dark:border-white/20 text-neutral-600 dark:text-white/70 text-sm font-bold hover:border-neutral-400 dark:hover:border-white/40 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200 mr-auto shrink-0"
                 >
                   <UIcon name="heroicons:book-open" class="w-4 h-4 shrink-0" />
                   {{ item.docsCta.label }}
@@ -260,7 +283,7 @@ withDefaults(defineProps<{
                     :href="item.secondaryCta.href"
                     target="_blank"
                     rel="noopener"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-white/20 text-white/70 text-sm font-bold hover:border-white/40 hover:text-white transition-colors duration-200"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-neutral-300 dark:border-white/20 text-neutral-600 dark:text-white/70 text-sm font-bold hover:border-neutral-400 dark:hover:border-white/40 hover:text-neutral-900 dark:hover:text-white transition-colors duration-200"
                   >
                     {{ item.secondaryCta.label }}
                     <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4 shrink-0" />

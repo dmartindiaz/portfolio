@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div :class="cn(`flex justify-end bg-neutral-900 border-t border-neutral-800 p-4`, props.class)">
+  <div :class="cn(`flex justify-end bg-neutral-50 border-t border-neutral-200 dark:bg-neutral-900 dark:border-neutral-800 p-4`, props.class)">
     <slot />
   </div>
 </template>

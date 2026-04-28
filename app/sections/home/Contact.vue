@@ -172,7 +172,7 @@ async function handleSubmit() {
         <div class="flex flex-col gap-6">
           <!-- Phone -->
           <a
-            href="tel:+34665561897"
+            href="tel:+34663561897"
             class="group flex items-start gap-4"
           >
             <UIcon
@@ -181,7 +181,7 @@ async function handleSubmit() {
             />
             <div class="flex flex-col gap-0.5">
               <span class="text-xs font-semibold tracking-widest uppercase text-neutral-400 dark:text-white/30">{{ t('contact.info.phone') }}</span>
-              <span class="text-base font-medium text-neutral-900 dark:text-white group-hover:text-primary-400 transition-colors duration-200">665 56 18 97</span>
+              <span class="text-base font-medium text-neutral-900 dark:text-white group-hover:text-primary-400 transition-colors duration-200">663 56 18 97</span>
             </div>
           </a>
 
