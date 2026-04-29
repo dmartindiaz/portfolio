@@ -17,6 +17,14 @@ export default defineNuxtConfig({
 
   modules: ['@nuxt/eslint', '@nuxt/ui', '@nuxtjs/i18n', '@nuxtjs/mdc'],
 
+  icon: {
+    clientBundle: {
+      // Bundle these full collections so no network requests are needed at runtime
+      collections: ['heroicons', 'ph', 'logos'],
+      scan: true,
+    },
+  },
+
   components: [
     { path: '~/sections' },
     { path: '~/components' }
