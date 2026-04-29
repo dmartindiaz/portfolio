@@ -561,6 +561,8 @@ function killAnimation() {
   stEntrance?.kill()
   stEntrance = null
 
+  if (isMobileIDE.value) ScrollTrigger.normalizeScroll(false)
+
   // Reset all GSAP inline styles so CSS classes take over again
   if (revealWrapRef.value) gsap.set(revealWrapRef.value, { clearProps: 'all' })
   if (ideWrapRef.value) gsap.set(ideWrapRef.value, { clearProps: 'all' })
@@ -577,19 +579,35 @@ function initAnimation() {
 
   if (!sectionRef.value || !revealWrapRef.value || !ideWrapRef.value) return
 
-  // Entrance animation: revealWrap rises from below as section scrolls into view
-  gsap.set(revealWrapRef.value, { y: 80, opacity: 0 })
-  stEntrance = ScrollTrigger.create({
-    trigger: sectionRef.value,
-    start: 'top bottom',
-    end: 'top top',
-    scrub: 1,
-    animation: gsap.fromTo(
-      revealWrapRef.value,
-      { y: 80, opacity: 0 },
-      { y: 0, opacity: 1, ease: 'none' }
-    )
-  })
+  // On mobile, let GSAP drive scroll so touches over the IDE overlay still advance the timeline.
+  // We toggle normalizeScroll only while the user is within this section.
+  if (isMobileLayout) {
+    stEntrance = ScrollTrigger.create({
+      trigger: sectionRef.value,
+      start: 'top bottom',
+      end: 'top top',
+      scrub: 1,
+      onEnter: () => ScrollTrigger.normalizeScroll(true),
+      onLeaveBack: () => ScrollTrigger.normalizeScroll(false),
+      animation: gsap.fromTo(
+        revealWrapRef.value,
+        { y: 80, opacity: 0 },
+        { y: 0, opacity: 1, ease: 'none' }
+      )
+    })
+  } else {
+    stEntrance = ScrollTrigger.create({
+      trigger: sectionRef.value,
+      start: 'top bottom',
+      end: 'top top',
+      scrub: 1,
+      animation: gsap.fromTo(
+        revealWrapRef.value,
+        { y: 80, opacity: 0 },
+        { y: 0, opacity: 1, ease: 'none' }
+      )
+    })
+  }
 
   const wordEls = revealWrapRef.value.querySelectorAll<HTMLElement>('.title-word')
 
@@ -616,6 +634,8 @@ function initAnimation() {
       end: '+=600%',
       pin: true,
       scrub: 1,
+      onEnterBack: () => { if (isMobileLayout) ScrollTrigger.normalizeScroll(true) },
+      onLeave: () => { if (isMobileLayout) ScrollTrigger.normalizeScroll(false) },
       onUpdate: (self) => {
         const p = self.progress
         // intro animation takes ~40% of total scroll, remaining 60% → 4 stages × 15%
@@ -822,7 +842,7 @@ defineExpose({ initAnimation })
 
           <!-- Code content -->
           <div
-            class="flex-1 min-h-0 bg-neutral-950 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!p-4 [&_code]:!text-xs lg:[&_code]:!text-sm [&_code]:!leading-5 lg:[&_code]:!leading-6 [&_code]:font-mono [&>div]:!mt-0 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30"
+            class="flex-1 min-h-0 bg-neutral-950 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!p-4 [&_code]:!text-[8px] sm:[&_code]:!text-[10px] lg:[&_code]:!text-sm [&_code]:!leading-[1.6] sm:[&_code]:!leading-5 lg:[&_code]:!leading-6 [&_code]:font-mono [&>div]:!mt-0 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/15 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/30"
             :class="ideFocused ? 'overflow-y-auto' : 'overflow-hidden'"
           >
             <MDC :key="activeFile" :value="activeCode" unwrap="p" />
