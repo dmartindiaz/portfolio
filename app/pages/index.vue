@@ -50,6 +50,8 @@ const meRef = ref()
 const timelineRef = ref()
 const dryRef = ref()
 const stackRef = ref()
+const companiesRef = ref()
+const heroRef = ref()
 
 const appReady = ref(false)
 const loadingDone = ref(false)
@@ -60,6 +62,7 @@ onMounted(async () => {
   timelineRef.value?.initAnimation()
   dryRef.value?.initAnimation()
   stackRef.value?.initAnimations()
+  companiesRef.value?.initAnimations()
   ScrollTrigger.refresh()
   appReady.value = true
 })
@@ -69,11 +72,12 @@ onMounted(async () => {
   <AppLoading
     v-if="!loadingDone"
     :ready="appReady"
-    @done="loadingDone = true"
+    @done="() => { loadingDone = true; heroRef?.initAnimation() }"
   />
   <AppHeader />
 
   <HomeHero
+    ref="heroRef"
     :badge="t('hero.badge')"
     :title-before="t('hero.titleBefore')"
     :title-highlight="t('hero.titleHighlight')"
@@ -209,8 +213,7 @@ onMounted(async () => {
         ],
         tags: ['Nuxt', 'Vue 3', 'Tailwind CSS', 'OpenAPI'],
         size: 'featured',
-        tint: 'bg-neutral-900/60',
-        image: '/projects/kumo.png',
+        logo: '/projects/corte-ingles.png',
         hideModalCtas: true,
         primaryCta: { label: t('projects.items.0.primaryCta'), href: 'https://www.kumonetworks.com' },
         secondaryCta: { label: t('projects.items.0.secondaryCta'), href: 'https://www.kumonetworks.com' }
@@ -228,9 +231,8 @@ onMounted(async () => {
         ],
         tags: ['Nuxt', 'TypeScript', 'OpenAPI'],
         size: 'default',
-        tint: 'bg-neutral-900/60',
         href: 'https://www.npmjs.com/package/nuxt-openapi-hyperfetch',
-        image: '/projects/nuxt-openapi-hyperfetch.png',
+        logo: '/projects/nuxt-openapi-hyperfetch.png',
         primaryCta: { label: t('projects.items.1.primaryCta'), href: 'https://www.npmjs.com/package/nuxt-openapi-hyperfetch' },
         secondaryCta: { label: t('projects.items.1.secondaryCta'), href: 'https://github.com/dmartindiaz' },
         docsCta: { label: t('projects.items.1.docsCta'), href: 'https://nuxt-openapi-hyperfetch.netlify.app/' }
@@ -248,8 +250,7 @@ onMounted(async () => {
         ],
         tags: ['Ionic', 'Vue', 'iOS', 'Android'],
         size: 'default',
-        tint: 'bg-neutral-900/60',
-        image: '/projects/cardiosalus-app.png',
+        logo: '/projects/Ribera.png',
         primaryCta: { label: t('projects.items.2.primaryCta'), href: 'https://riberasalud.com/cardiosalus/app-ribera-cardiosalus/' }
       },
       {
@@ -265,14 +266,15 @@ onMounted(async () => {
         ],
         tags: ['Angular', 'NestJS', 'Docker'],
         size: 'featured',
-        tint: 'bg-neutral-900/60',
-        image: '/projects/cluby.png',
+        logo: '/projects/cluby.png',
         credentials: { user: 'admin1_demo@conecta-2s.com', password: 'Temporal.123', note: t('projects.items.3.credentialsNote') },
         secondaryCta: { label: t('projects.items.3.clientCta'), href: 'https://clubyapp.com/cluby_client_dev/' },
         primaryCta: { label: t('projects.items.3.adminCta'), href: 'https://clubyapp.com/cluby_admin_dev/' }
       }
-    ]"
+    ]" 
   />
+
+  <HomeCompanies ref="companiesRef" />
 
   <HomeDry ref="dryRef" />
 

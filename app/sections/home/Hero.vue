@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onUnmounted, ref } from 'vue'
+
 interface Cta {
   label: string
   to?: string
@@ -6,7 +8,7 @@ interface Cta {
   icon?: string
 }
 
-defineProps<{
+const props = defineProps<{
   badge?: string
   titleBefore?: string
   titleHighlight?: string
@@ -19,6 +21,123 @@ defineProps<{
   location?: string
   experience?: string
 }>()
+
+// ── Scramble text ────────────────────────────────────────────────────────────
+const CHARSET = '01<>{}[]|/\\@#$%^&*~;:=+'
+const ICON_CHANCE = 0.35
+
+// ── Fullstack cycle stacks ───────────────────────────────────────────────────
+interface Stack { text: string; icons: string[]; color: string }
+const STACKS: Stack[] = [
+  { text: 'Vue / Nuxt', icons: ['logos:vue', 'logos:nuxt-icon'],       color: '#41b883' },
+  { text: 'NestJS',     icons: ['logos:nestjs'],                        color: '#e0234e' },
+  { text: 'Angular',    icons: ['logos:angular-icon'],                  color: '#dd0031' },
+  { text: 'Docker',     icons: ['logos:docker-icon'],                   color: '#2496ed' },
+  { text: 'Linux',      icons: ['logos:linux-tux'],                     color: 'currentColor' },
+]
+
+type Token = { type: 'char'; value: string } | { type: 'icon'; name: string }
+
+function toCharTokens(text: string): Token[] {
+  return text.split('').map(c => ({ type: 'char', value: c }))
+}
+
+const scrambleTokens = ref<Token[]>(props.titleHighlight ? toCharTokens(props.titleHighlight) : [])
+const highlightOpacity = ref(0)
+const activeColor = ref('#41b883')
+let rafId: number | null = null
+let cycleTimer: ReturnType<typeof setTimeout> | null = null
+let activeIcons: string[] = ['logos:vue', 'logos:nuxt-icon']
+
+function scramble(target: string, onDone?: () => void) {
+  if (rafId) cancelAnimationFrame(rafId)
+  const len = target.length
+  const totalFrames = 30
+  const revealFrames = 18
+  const staggerPerChar = (totalFrames - revealFrames) / len
+  let frame = 0
+  let lastTime = performance.now()
+  const frameInterval = 1000 / 18
+
+  function tick(now: number) {
+    if (now - lastTime < frameInterval) {
+      rafId = requestAnimationFrame(tick)
+      return
+    }
+    lastTime = now
+
+    highlightOpacity.value = Math.min(1, frame / (totalFrames * 0.25))
+
+    const tokens: Token[] = []
+    for (let i = 0; i < len; i++) {
+      const revealAt = i * staggerPerChar
+      if (frame >= revealAt + revealFrames) {
+        tokens.push({ type: 'char', value: target[i] })
+      } else if (target[i] === ' ') {
+        tokens.push({ type: 'char', value: ' ' })
+      } else if (Math.random() < ICON_CHANCE) {
+        tokens.push({ type: 'icon', name: activeIcons[Math.floor(Math.random() * activeIcons.length)] })
+      } else {
+        tokens.push({ type: 'char', value: CHARSET[Math.floor(Math.random() * CHARSET.length)] })
+      }
+    }
+    scrambleTokens.value = tokens
+    frame++
+
+    if (frame <= totalFrames + revealFrames) {
+      rafId = requestAnimationFrame(tick)
+    } else {
+      scrambleTokens.value = toCharTokens(target)
+      highlightOpacity.value = 1
+      onDone?.()
+    }
+  }
+  rafId = requestAnimationFrame(tick)
+}
+
+function startCycle() {
+  let index = 0
+
+  function runNext() {
+    const stack = STACKS[index % STACKS.length]
+    activeIcons = stack.icons
+    activeColor.value = stack.color
+    // Fade out current text then scramble into next
+    highlightOpacity.value = 0
+    scrambleTokens.value = toCharTokens(stack.text)
+    scramble(stack.text, () => {
+      index++
+      cycleTimer = setTimeout(runNext, 1500)
+    })
+  }
+
+  runNext()
+}
+
+function initAnimation() {
+  if (!props.titleHighlight) return
+  if (cycleTimer) { clearTimeout(cycleTimer); cycleTimer = null }
+  if (rafId) cancelAnimationFrame(rafId)
+
+  const isFullstack = typeof window !== 'undefined' && window.location.hash === '#fullstack'
+
+  if (isFullstack) {
+    startCycle()
+  } else {
+    activeIcons = STACKS[0].icons
+    activeColor.value = STACKS[0].color
+    scrambleTokens.value = toCharTokens(props.titleHighlight)
+    highlightOpacity.value = 0
+    setTimeout(() => scramble(props.titleHighlight!), 0)
+  }
+}
+
+onUnmounted(() => {
+  if (rafId) cancelAnimationFrame(rafId)
+  if (cycleTimer) clearTimeout(cycleTimer)
+})
+
+defineExpose({ initAnimation })
 </script>
 
 <template>
@@ -37,7 +156,12 @@ defineProps<{
         <!-- Heading -->
         <h1 v-if="titleBefore !== undefined || titleHighlight !== undefined || titleAfter !== undefined" class="font-mono font-bold leading-tight text-neutral-900 dark:text-white">
           <span v-if="titleBefore" class="block text-3xl md:text-5xl text-neutral-700 dark:text-white/80">{{ titleBefore }}</span>
-          <em v-if="titleHighlight" class="not-italic italic font-sans text-primary-400 text-5xl md:text-7xl">{{ titleHighlight }}</em>
+          <em v-if="titleHighlight" class="not-italic italic font-sans text-5xl md:text-7xl inline-flex items-center flex-wrap gap-x-1" :style="{ opacity: highlightOpacity, color: activeColor }">
+            <template v-for="(token, i) in scrambleTokens" :key="i">
+              <UIcon v-if="token.type === 'icon'" :name="token.name" class="inline-block w-[0.85em] h-[0.85em] align-middle" />
+              <span v-else>{{ token.value }}</span>
+            </template>
+          </em>
           <br v-if="titleHighlight">
           <span v-if="titleAfter" class="text-5xl md:text-7xl">{{ titleAfter }}</span>
         </h1>

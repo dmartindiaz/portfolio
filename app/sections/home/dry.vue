@@ -552,11 +552,14 @@ const activeCode = computed(() => codeByFile.value[activeFile.value] ?? '')
 
 // ─── GSAP ─────────────────────────────────────────────────────────────────────
 let st: ScrollTrigger | null = null
+let stEntrance: ScrollTrigger | null = null
 let resizeTimer: ReturnType<typeof setTimeout>
 
 function killAnimation() {
   st?.kill()
   st = null
+  stEntrance?.kill()
+  stEntrance = null
 
   // Reset all GSAP inline styles so CSS classes take over again
   if (revealWrapRef.value) gsap.set(revealWrapRef.value, { clearProps: 'all' })
@@ -573,6 +576,20 @@ function initAnimation() {
   const isMobileLayout = window.innerWidth < 1080
 
   if (!sectionRef.value || !revealWrapRef.value || !ideWrapRef.value) return
+
+  // Entrance animation: revealWrap rises from below as section scrolls into view
+  gsap.set(revealWrapRef.value, { y: 80, opacity: 0 })
+  stEntrance = ScrollTrigger.create({
+    trigger: sectionRef.value,
+    start: 'top bottom',
+    end: 'top top',
+    scrub: 1,
+    animation: gsap.fromTo(
+      revealWrapRef.value,
+      { y: 80, opacity: 0 },
+      { y: 0, opacity: 1, ease: 'none' }
+    )
+  })
 
   const wordEls = revealWrapRef.value.querySelectorAll<HTMLElement>('.title-word')
 

@@ -171,7 +171,7 @@ defineExpose({ initAnimations })
             :key="typeof tag === 'string' ? tag : tag.label"
             class="anim-tag inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all duration-200 cursor-default"
             :class="(typeof tag === 'object' && tag.featured)
-              ? 'border-primary-400/40 bg-primary-400/10 text-primary-400 hover:bg-primary-400/20 hover:border-primary-400/60 hover:shadow-[0_0_12px_2px_rgba(var(--ui-primary)/0.25)]'
+              ? 'border-neutral-300 dark:border-primary-400/40 bg-neutral-100/80 dark:bg-primary-400/10 text-neutral-700 dark:text-primary-400 hover:bg-neutral-200/80 dark:hover:bg-primary-400/20 hover:border-neutral-400 dark:hover:border-primary-400/60 hover:shadow-[0_0_12px_2px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_12px_2px_rgba(var(--ui-primary)/0.25)]'
               : 'border-neutral-200 dark:border-white/10 bg-neutral-100/80 dark:bg-white/4 text-neutral-600 dark:text-white/70 hover:border-neutral-300 dark:hover:border-white/25 hover:bg-neutral-100 dark:hover:bg-white/8 hover:text-neutral-900 dark:hover:text-white'"
           >
             <UIcon
@@ -191,7 +191,7 @@ defineExpose({ initAnimations })
         <div
           ref="featuredCardRef"
           v-if="featuredCard"
-          class="relative rounded-2xl p-5 sm:p-6 flex items-center gap-5 sm:gap-8 border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-800/60 backdrop-blur-sm overflow-hidden"
+          class="relative rounded-2xl p-5 sm:p-6 flex items-center gap-5 sm:gap-8 border border-neutral-200/60 dark:border-white/10 bg-white/30 dark:bg-neutral-800/60 backdrop-blur-md overflow-hidden"
         >
           <Glow :border-radius="16" color="#41b883" :border-width="1" :duration="8" />
           <UIcon name="logos:vue" class="w-14 h-14 sm:w-20 sm:h-20 shrink-0 opacity-90" />

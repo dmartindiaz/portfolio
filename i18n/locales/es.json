@@ -87,8 +87,11 @@
       "email": "Email",
       "location": "Ubicación"
     }
-  },
-  "dry": {
+  },  "companies": {
+    "title": "Ownership completo del Frontend.",
+    "description": "Responsable de todo el ciclo de vida frontend: desde la concepción y definición técnica hasta el desarrollo, despliegue y evolución de los productos en producción.",
+    "logosTitle": "Empresas para las que he construido"
+  },  "dry": {
     "headline": "Arquitectura que escala.",
     "ide": {
       "focus": "Scroll",

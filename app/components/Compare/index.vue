@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: "",
   firstContentClass: "",
   secondContentClass: "",
-  initialSliderPercentage: 50,
+  initialSliderPercentage: 70,
   slideMode: "hover",
   showHandlebar: true,
   autoplay: false,

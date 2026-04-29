@@ -1,44 +1,29 @@
 <script setup lang="ts">
-import {
-  AnimatedModal,
-  AnimatedModalBody,
-  AnimatedModalContent,
-  AnimatedModalFooter
-} from '~/components/animated-modal'
-
 export interface ProjectItem {
   title: string
   description: string
-  /** Short role label shown in the modal header */
   role?: string
-  /** Period shown under the role, e.g. 'Mar 2024 – Present' */
   period?: string
-  /** Key highlights shown as a bullet list inside the modal */
   highlights?: string[]
-  /** Extended description shown inside the modal only */
   details?: string
   tags?: string[]
   image?: string
-  /** 'featured' spans 2 columns, 'default' spans 1 */
   size?: 'default' | 'featured'
-  /** Optional tint color class applied over the image, e.g. 'bg-teal-900/40' */
   tint?: string
   href?: string
   primaryCta?: { label: string; href: string }
   secondaryCta?: { label: string; href: string }
   docsCta?: { label: string; href: string }
-  /** If true, hides the footer CTAs inside the modal */
   hideModalCtas?: boolean
-  /** Demo credentials shown as a styled block inside the modal */
   credentials?: { user: string; password: string; note?: string }
+  logo?: string
 }
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   badge?: string
   title?: string
   ctaLabel?: string
   ctaHref?: string
-  /** Label for the "more info" button on each card */
   moreInfoLabel?: string
   items?: ProjectItem[]
 }>(), {
@@ -47,44 +32,17 @@ withDefaults(defineProps<{
   ctaLabel: 'All Projects',
   ctaHref: '#',
   moreInfoLabel: 'Más información',
-  items: () => [
-    {
-      title: 'NexGen Analytics Platform',
-      description: 'Enterprise-grade data orchestration dashboard with real-time streaming.',
-      tags: ['Nuxt 3', 'TypeScript'],
-      size: 'featured',
-      tint: 'bg-neutral-900/60'
-    },
-    {
-      title: 'Aura E-Commerce',
-      description: 'Headless retail experience with motion-heavy transitions.',
-      tags: ['Vue 3'],
-      size: 'default',
-      tint: 'bg-teal-900/50'
-    },
-    {
-      title: 'Architect UI Kit',
-      description: 'A proprietary design system for high-performance apps.',
-      tags: [],
-      size: 'default',
-      tint: 'bg-neutral-900/60'
-    },
-    {
-      title: 'MarketSense Engine',
-      description: 'Marketing automation tool leveraging AI to predict customer behavior.',
-      tags: [],
-      size: 'featured',
-      tint: 'bg-neutral-900/50'
-    }
-  ]
+  items: () => []
 })
+
+const openStates = computed(() => props.items?.map(() => ref(false)) ?? [])
 </script>
 
 <template>
   <section id="projects" class="relative px-8 py-24 bg-neutral-50 dark:bg-neutral-900 overflow-hidden">
     <!-- Blobs -->
     <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-      <div class="absolute left-[10%] top-[20%] w-[500px] h-[500px] rounded-full bg-primary-500/10 blur-3xl" />
+      <div class="absolute left-[10%] top-[20%] w-[500px] h-[500px] rounded-full bg-primary-500/4 dark:bg-primary-500/10 blur-3xl" />
       <div class="absolute left-[65%] top-[50%] w-[420px] h-[420px] rounded-full bg-neutral-400/10 blur-3xl" />
     </div>
 
@@ -104,92 +62,117 @@ withDefaults(defineProps<{
 
       <!-- Bento grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 lg:auto-rows-[320px] gap-4">
-        <AnimatedModal
+        <template
           v-for="(item, i) in items"
           :key="i"
         >
-          <template #default="{ openModal }">
-            <!-- ── Card ───────────────────────────────────────────── -->
-            <div
-              class="group relative rounded-2xl overflow-hidden cursor-pointer lg:min-h-0 bg-neutral-100 dark:bg-neutral-800"
-              :class="[
-                item.size === 'featured' ? 'lg:col-span-2' : 'lg:col-span-1',
-                (i === 0 || i === 3) ? 'border border-transparent' : 'border border-neutral-200 dark:border-white/8'
-              ]"
-            >
-              <!-- Glow on first and fourth card -->
-              <Glow
-                v-if="i === 0 || i === 3"
-                class="z-50"
-                :border-radius="16"
-                color="#41b883"
-                :border-width="1"
-                :duration="8"
-              />
-              <!-- Background image -->
-              <div v-if="item.image" class="absolute inset-0 z-0">
+          <!-- ── Card ───────────────────────────────────────────── -->
+          <div
+            class="group relative rounded-2xl overflow-hidden cursor-pointer flex flex-col bg-white/30 dark:bg-white/5 backdrop-blur-md border border-neutral-200/50 dark:border-transparent min-h-64 lg:min-h-0"
+            :class="[
+              item.size === 'featured' ? 'lg:col-span-2' : 'lg:col-span-1',
+              (i === 0) ? 'border border-transparent' : 'border border-neutral-200 dark:border-white/10'
+            ]"
+            @click="openStates[i].value = true"
+          >
+            <!-- Glow on first card only -->
+            <Glow
+              v-if="i === 0"
+              class="z-50"
+              :border-radius="16"
+              color="#41b883"
+              :border-width="1"
+              :duration="8"
+            />
+
+            <!-- Subtle accent blob -->
+            <div class="pointer-events-none absolute -top-8 -right-8 w-40 h-40 rounded-full bg-primary-500/8 blur-3xl" />
+
+            <!-- Content -->
+            <div class="relative z-10 p-6 flex flex-col gap-4 flex-1 min-h-0">
+              <!-- Logo -->
+              <div class="h-14 flex items-center shrink-0">
                 <img
-                  :src="item.image"
-                  :alt="item.title"
-                  class="w-full h-full object-cover object-center scale-105 transition-all duration-700 group-hover:scale-100 brightness-[0.85] saturate-[0.6] dark:brightness-[0.6] dark:saturate-[0.3] group-hover:brightness-[0.95] group-hover:saturate-[0.75] dark:group-hover:brightness-[0.75] dark:group-hover:saturate-[0.5]"
-                >
-                <div class="absolute inset-0 bg-primary-500/20 mix-blend-overlay" />
-                <div class="absolute inset-0 opacity-[0.04]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E'); background-size: 256px 256px;" />
+                  v-if="item.logo"
+                  :src="item.logo"
+                  :alt="item.title + ' logo'"
+                  class="h-full w-auto object-contain object-left grayscale mix-blend-multiply opacity-70 dark:invert dark:mix-blend-screen dark:opacity-55 transition-opacity duration-300 group-hover:opacity-90 dark:group-hover:opacity-70"
+                  :class="item.size === 'featured' ? 'max-w-[260px]' : 'max-w-[200px]'"
+                  draggable="false"
+                />
               </div>
 
-              <!-- Tint / base bg (dark only) -->
-              <div
-                class="absolute inset-0 z-10 transition-opacity duration-300 group-hover:opacity-80 hidden dark:block"
-                :class="item.tint ?? 'bg-neutral-900/70'"
-              />
-              <!-- Light mode overlay -->
-              <div class="absolute inset-0 z-10 bg-white/80 dark:hidden" />
+              <!-- Title -->
+              <h3 class="text-xl font-mono font-bold text-neutral-900 dark:text-white leading-snug shrink-0">{{ item.title }}</h3>
 
-              <!-- Bottom gradient (dark only) -->
-              <div class="absolute inset-x-0 bottom-0 z-20 h-2/3 bg-gradient-to-t from-black/80 to-transparent hidden dark:block" />
+              <!-- Description -->
+              <p class="text-sm text-neutral-600 dark:text-white/70 leading-relaxed flex-1 min-h-0 overflow-hidden line-clamp-4">{{ item.description }}</p>
 
-              <!-- Content -->
-              <div class="relative z-30 p-6 flex flex-col gap-2 min-h-70 justify-end lg:min-h-0 lg:absolute lg:inset-x-0 lg:bottom-0">
-                <!-- Tags -->
-                <div v-if="item.tags?.length" class="flex flex-wrap gap-2 mb-1">
+              <!-- Tags + CTA -->
+              <div class="flex flex-col gap-3 shrink-0 pt-2 border-t border-neutral-200/60 dark:border-white/8">
+                <div v-if="item.tags?.length" class="flex flex-wrap gap-1.5">
                   <span
                     v-for="tag in item.tags"
                     :key="tag"
-                    class="px-2.5 py-0.5 rounded-md text-xs font-bold tracking-wider uppercase bg-primary-500/20 dark:bg-primary-400/15 text-primary-700 dark:text-primary-400 border border-primary-500/40 dark:border-primary-400/25"
+                    class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-semibold tracking-wider uppercase bg-neutral-200/80 dark:bg-white/8 text-neutral-500 dark:text-white/40 border border-neutral-300/60 dark:border-white/10"
                   >
+                    <UIcon
+                      :name="({
+                        'Nuxt': 'logos:nuxt-icon',
+                        'Vue 3': 'logos:vue',
+                        'Vue': 'logos:vue',
+                        'Tailwind CSS': 'logos:tailwindcss-icon',
+                        'TypeScript': 'logos:typescript-icon',
+                        'OpenAPI': 'logos:openapi-icon',
+                        'Ionic': 'logos:ionic-icon',
+                        'iOS': 'logos:apple',
+                        'Android': 'logos:android-icon',
+                        'Angular': 'logos:angular-icon',
+                        'NestJS': 'logos:nestjs',
+                        'Docker': 'logos:docker-icon',
+                      } as Record<string,string>)[tag] ?? 'heroicons:code-bracket'"
+                      class="w-3 h-3 shrink-0 grayscale"
+                    />
                     {{ tag }}
                   </span>
                 </div>
-
-                <h3 class="text-xl font-mono font-bold text-neutral-900 dark:text-white leading-snug drop-shadow-none dark:drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">{{ item.title }}</h3>
-                <p class="text-sm text-neutral-600 dark:text-white/70 leading-relaxed">{{ item.description }}</p>
-
-                <!-- More info -->
-                <div class="mt-2">
+                <div>
                   <UButton
                     color="primary"
                     :leading-icon="'heroicons:information-circle'"
-                    @click.stop="openModal()"
+                    @click.stop="openStates[i].value = true"
                   >
                     {{ moreInfoLabel }}
                   </UButton>
                 </div>
               </div>
-
-              <!-- Hover border glow (only on non-Glow cards) -->
-              <div
-                v-if="i !== 0 && i !== 3"
-                class="absolute inset-0 z-40 rounded-2xl ring-1 ring-inset ring-neutral-200 dark:ring-white/10 transition-all duration-300 group-hover:ring-primary-400/30 pointer-events-none"
-              />
             </div>
 
-            <!-- ── Modal ──────────────────────────────────────────── -->
-            <AnimatedModalBody content-class="overflow-y-auto">
-              <!-- Modal content -->
-              <AnimatedModalContent>
+            <!-- Hover border glow (only on non-Glow cards) -->
+            <div
+              v-if="i !== 0 && i !== 3"
+              class="absolute inset-0 z-40 rounded-2xl ring-1 ring-inset ring-neutral-200 dark:ring-white/10 transition-all duration-300 group-hover:ring-primary-400/30 pointer-events-none"
+            />
+          </div>
+
+          <!-- ── Modal ──────────────────────────────────────────── -->
+          <UModal v-model:open="openStates[i].value" :ui="{ content: 'max-w-[min(720px,calc(100vw-32px))] max-h-[85vh] flex flex-col' }">
+            <template #content>
+              <!-- Close button -->
+              <button
+                type="button"
+                class="absolute top-4 right-4 z-10 p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-white transition-colors"
+                aria-label="Close"
+                @click="openStates[i].value = false"
+              >
+                <UIcon name="heroicons:x-mark" class="w-5 h-5" />
+              </button>
+
+              <!-- Scrollable body -->
+              <div class="flex-1 overflow-y-auto p-8 md:p-10">
                 <div class="flex flex-col gap-6">
 
-                  <!-- Header: role + period + tags -->
+                  <!-- Header: role + period + logo -->
                   <div class="flex flex-col gap-3">
                     <div class="flex flex-wrap items-center gap-2">
                       <span v-if="item.role" class="text-xs font-bold tracking-widest uppercase text-primary-600 dark:text-primary-400">
@@ -201,7 +184,16 @@ withDefaults(defineProps<{
                       </span>
                     </div>
 
-                    <h2 class="text-2xl font-bold text-neutral-900 dark:text-white leading-snug">{{ item.title }}</h2>
+                    <div class="flex items-center gap-4">
+                      <img
+                        v-if="item.logo"
+                        :src="item.logo"
+                        :alt="item.title + ' logo'"
+                        class="h-8 w-auto object-contain grayscale mix-blend-multiply opacity-60 dark:invert dark:mix-blend-screen dark:opacity-40"
+                        draggable="false"
+                      />
+                      <h2 class="text-2xl font-bold text-neutral-900 dark:text-white leading-snug">{{ item.title }}</h2>
+                    </div>
 
                     <div v-if="item.tags?.length" class="flex flex-wrap gap-2">
                       <span
@@ -260,12 +252,12 @@ withDefaults(defineProps<{
                   </p>
 
                 </div>
-              </AnimatedModalContent>
+              </div>
 
               <!-- Footer CTAs -->
-              <AnimatedModalFooter
+              <div
                 v-if="!item.hideModalCtas && (item.primaryCta || item.secondaryCta || item.docsCta)"
-                class="bg-neutral-50 dark:bg-neutral-900 gap-2 flex-wrap"
+                class="flex justify-end bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800 p-4 gap-2 flex-wrap shrink-0"
               >
                 <a
                   v-if="item.docsCta"
@@ -299,10 +291,10 @@ withDefaults(defineProps<{
                     <UIcon name="heroicons:arrow-top-right-on-square" class="w-4 h-4 shrink-0" />
                   </a>
                 </div>
-              </AnimatedModalFooter>
-            </AnimatedModalBody>
-          </template>
-        </AnimatedModal>
+              </div>
+            </template>
+          </UModal>
+        </template>
       </div>
 
     </div>

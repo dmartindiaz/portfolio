@@ -88,6 +88,11 @@
       "location": "Location"
     }
   },
+  "companies": {
+    "title": "Complete Frontend Ownership.",
+    "description": "Responsible for the entire frontend lifecycle: from conception and technical definition through development, deployment and ongoing product evolution in production.",
+    "logosTitle": "Companies I've built for"
+  },
   "dry": {
     "headline": "Arquitectura que escala.",
     "ide": {
